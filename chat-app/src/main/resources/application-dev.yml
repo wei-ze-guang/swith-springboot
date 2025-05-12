@@ -36,6 +36,12 @@ spring:
     multipart:
       max-file-size: 200MB  # 设置上传单个文件的最大大小
       max-request-size: 200MB  # 设置整个请求的最大大小
+minio:
+  endpoint: http://localhost:9000  # MinIO 服务器地址
+  access-key: minioadmin          # 访问密钥（默认）
+  secret-key: minioadmin          # 密钥（默认）
+  bucket-name: first-chat        # 默认存储桶
+
 
 
 mybatis:

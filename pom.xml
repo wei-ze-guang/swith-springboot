@@ -21,6 +21,7 @@
         <module>chat-common</module>
         <module>chat-repository</module>
         <module>chat-web</module>
+        <module>chat-service</module>
     </modules>
 
     <properties>
