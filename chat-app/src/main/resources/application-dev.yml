@@ -5,7 +5,7 @@ spring:
 #      resources:
 #        static-locations: classpath:/static/
   datasource:
-    url: jdbc:mysql://localhost:3306/first_chat
+    url: jdbc:mysql://localhost:3306/swith_chat
     username: root
     password: a132b465
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -36,6 +36,14 @@ spring:
     multipart:
       max-file-size: 200MB  # 设置上传单个文件的最大大小
       max-request-size: 200MB  # 设置整个请求的最大大小
+
+  rabbitmq:
+    host: localhost  # RabbitMQ 服务器地址
+    port: 5672       # 默认端口
+    username: guest  # 默认用户名
+    password: guest  # 默认密码
+    virtual-host: /
+
 minio:
   endpoint: http://localhost:9000  # MinIO 服务器地址
   access-key: minioadmin          # 访问密钥（默认）

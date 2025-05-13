@@ -38,8 +38,9 @@
         <minio.version>8.5.1</minio.version>
         <redisson.version>3.21.3</redisson.version>
         <commons-lang3.version>3.8.1</commons-lang3.version>
-        <lombok.version>1.18.32</lombok.version>
+        <lombok.version>1.18.24</lombok.version>
         <mybatis.spring.version>3.0.3</mybatis.spring.version>
+        <map.mapstruct.version>1.5.5.Final</map.mapstruct.version>
     </properties>
 
     <dependencyManagement>
@@ -108,6 +109,7 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-amqp</artifactId>
+                <version>3.4.3</version>
             </dependency>
 
 
@@ -121,7 +123,7 @@
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
-                <version>1.18.24</version>
+                <version>${lombok.version}</version>
             </dependency>
 
             <dependency>
@@ -173,6 +175,27 @@
                 <artifactId>spring-boot-starter-websocket</artifactId>
             </dependency>
 
+<!--mapStruct-->
+                <dependency>
+                    <groupId>org.mapstruct</groupId>
+                    <artifactId>mapstruct</artifactId>
+                    <version>${map.mapstruct.version}</version>
+                </dependency>
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct-processor</artifactId>
+                <version>${map.mapstruct.version}</version>
+                <scope>provided</scope>  <!-- 只在编译时有效 -->
+            </dependency>
+
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok-mapstruct-binding</artifactId>
+                <version>0.2.0</version>
+                <scope>provided</scope>
+            </dependency>
+
+
         </dependencies>
     </dependencyManagement>
 
@@ -183,27 +206,34 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version> <!-- 确保插件版本兼容 Java 17 -->
+                <version>3.8.1</version>  <!-- 确保兼容你的 JDK 版本 -->
                 <configuration>
-                    <source>17</source> <!-- JDK 版本 -->
-                    <target>17</target> <!-- JDK 版本 -->
+                    <source>17</source>     <!-- 你的 JDK 版本 -->
+                    <target>17</target>
+                    <encoding>UTF-8</encoding>
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
-                            <version>1.18.24</version> <!-- Lombok 版本 -->
+                            <version>${lombok.version}</version>
                         </path>
-                    </annotationProcessorPaths>
-                </configuration>
-            </plugin>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>${map.mapstruct.version}</version>
+                        </path>
 
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <encoding>UTF-8</encoding>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok-mapstruct-binding</artifactId>
+                            <version>0.2.0</version>
+                        </path>
+
+                    </annotationProcessorPaths>
                 </configuration>
             </plugin>
         </plugins>
     </build>
+
 
 </project>
