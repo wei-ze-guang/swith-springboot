@@ -1,6 +1,7 @@
 package com.chat.common.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -8,13 +9,19 @@ import java.time.LocalDateTime;
 @Schema(description = "用户关系，添加好友Dto")
 public class UserRelationDto {
 
+    /**
+     * 主动方
+     */
     @Schema(description = "主动添加方")
+    @NotEmpty
     private String userId;
+    /**
+     * 被动方
+     */
     @Schema(description = "被添加方")
+    @NotEmpty
     private String friendUserId;
 
-    @Schema(description = "如果是添加还有数据库自动生成")
-    private Integer isDeleted;
     /**
      * 好友备注
      */

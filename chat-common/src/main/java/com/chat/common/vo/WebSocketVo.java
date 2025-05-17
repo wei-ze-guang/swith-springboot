@@ -8,22 +8,28 @@ import lombok.Data;
 @Data
 @Schema(description = "用来给websocket传输数据的VO")
 public class WebSocketVo<T>{
-    @Schema(description = "消息类型")
+    /** 私信*/
+    public static final int privateType = 0;
+    /**群聊*/
+    public static final int publicType = 1;
+
+    private int type ;
     /**
      * 消息类型
      */
+    @Schema(description = "消息类型")
     private WebSocketMessageType messageType;
 
-    @Schema(description = "消息体")
     /**
      * 消息体
      */
+    @Schema(description = "消息体")
     private T messageBody;
 
-    @Schema(description = "消息发送者")
     /**
      * 消息发送者
      */
+    @Schema(description = "消息发送者")
     private String messageFrom;
 
     /**

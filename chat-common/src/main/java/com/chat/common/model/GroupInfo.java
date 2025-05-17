@@ -45,5 +45,5 @@ public class GroupInfo {
     /**
      * 群是否介绍，0正常 1 群已注销
      */
-    private Integer isDeleted;
+    private int isDeleted;
 }

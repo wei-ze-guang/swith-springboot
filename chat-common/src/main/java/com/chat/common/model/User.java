@@ -6,6 +6,10 @@ import java.util.Date;
 
 @Data
 public class User {
+    /**
+     * 这个暂时用来查询用户的所有好友使用
+     */
+    private String friendUserId;
 
     // 主键ID，自增
     private Long id;
@@ -26,10 +30,10 @@ public class User {
     private Date updatedAt;
 
     // 性别 (1: 男, 2: 女, 其他: 未设置)
-    private Integer gender;
+    private int gender;
 
     // 逻辑删除标识（0: 正常, 1: 已删除）
-    private Integer isDeleted;
+    private int isDeleted;
 
     // 用户昵称
     private String nickName;

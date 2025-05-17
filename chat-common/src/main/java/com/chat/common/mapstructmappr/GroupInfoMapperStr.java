@@ -8,10 +8,10 @@ import org.mapstruct.Mapper;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
-public interface GroupInfoStr {
+public interface GroupInfoMapperStr {
 
     GroupInfoVo toGroupInfoVo(GroupInfo groupInfo);
-    GroupInfo  toGroupInfo(GroupInfoVo groupInfoVo);
+    GroupInfo  toGroupInfo(GroupInfoDto groupInfoDto);
     GroupInfoDto toGroupInfoDto(GroupInfo groupInfo);
 
     List<GroupInfoDto> toGroupInfoDtoList(List<GroupInfo> groupInfoList);

@@ -1,5 +1,6 @@
 package com.chat.service.minioservice.impl;
 
+import com.chat.common.utils.Result;
 import com.chat.service.minioservice.MinioService;
 import io.minio.*;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +27,7 @@ public class MinioServiceImpl implements MinioService {
      * @return 返回存储完的名字
      */
     @Override
-    public String minioUploadFile(String bucketName, MultipartFile file){
+    public Result minioUploadFile(String bucketName, MultipartFile file){
         String fileName= UUID.randomUUID() + "_" + file.getOriginalFilename();
 
         try{
@@ -45,10 +46,10 @@ public class MinioServiceImpl implements MinioService {
                             .contentType(file.getContentType())
                             .build()
             );
-            return fileName;
+            return Result.OK(fileName);
         } catch (Exception e) {
             log.error("文件上传到minio失败");
-            return null;
+            return Result.FAIL(false);
         }
     }
 
@@ -60,7 +61,7 @@ public class MinioServiceImpl implements MinioService {
      * @return 删除的文件名
      */
     @Override
-    public String minioDeleteFile(String bucketName, String fileName) {
+    public Result minioDeleteFile(String bucketName, String fileName) {
         try{
             minioClient.removeObject(
                     RemoveObjectArgs.builder()
@@ -68,10 +69,10 @@ public class MinioServiceImpl implements MinioService {
                             .object(fileName)
                             .build()
             );
-            return fileName;
+            return Result.OK(fileName);
         }catch (Exception e){
             log.error("文件删除失败，文件名:{}",fileName);
-            return null;
+            return Result.FAIL(false);
         }
     }
 }

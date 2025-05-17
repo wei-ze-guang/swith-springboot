@@ -2,7 +2,9 @@ package com.chat.service.controllerservice.impl;
 
 import com.chat.common.constant.WebSocketMessageType;
 import com.chat.common.dto.UserDto;
+import com.chat.common.mapstructmappr.UserMapperStr;
 import com.chat.common.model.User;
+import com.chat.common.vo.UserVo;
 import com.chat.common.vo.WebSocketVo;
 import com.chat.common.utils.Result;
 import com.chat.service.controllerservice.UserControllerService;
@@ -11,10 +13,12 @@ import com.repository.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
 import me.doudan.doc.annotation.ServiceLayer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -25,6 +29,13 @@ public class UserControllerServiceImpl implements UserControllerService {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private ApplicationEventPublisher publisher;
+
+    @Autowired
+    private UserMapperStr userMapperStr;
+
+    @Autowired
     private RabbitMQSendPrimaryMessageService rabbitMQSendPrimaryMessageService;
     /**
      * 用户注册
@@ -36,20 +47,9 @@ public class UserControllerServiceImpl implements UserControllerService {
     @Override
     @ServiceLayer(value = "插入数据库，返回结果",module = "注册")
     public Result userRegister(UserDto userDto) {
-        try {
-            User user = new User();
-            user.setUserId(userDto.getUserId());
-            user.setPassword(userDto.getPassword());
+            User user = userMapperStr.toUser(userDto);
             userMapper.insertUser(user);
-            return Result.OK(user);
-        } catch (DuplicateKeyException e) {
-            log.info("好友注册失败，主键问题，无法插入");
-            return Result.FAIL("用户ID已存在，请更换后再试");
-        } catch (Exception e) {
-            e.printStackTrace();
-            log.error("插入数据库异常");
-            return Result.FAIL("注册失败：" + e.getMessage());
-        }
+            return Result.OK(userMapperStr.toUserVo(user));
     }
 
 
@@ -62,26 +62,21 @@ public class UserControllerServiceImpl implements UserControllerService {
      * @return
      */
     @Override
-    //TODO 处理jwt
     public Result userLogin(UserDto userDto) {
-        try{
-            User user = userMapper.selectByUserId(userDto.getUserId());
-            if(user==null){
-            throw  new RuntimeException("查询的用户不存在");
-            }
-            if(user.getPassword().equals(userDto.getPassword())){
-                return Result.OK(user);
-            }
+        User user = userMapperStr.toUser(userDto);
+        user = userMapper.selectByUserId(user.getUserId());
+
+        if (user == null) {
+            return Result.FAIL("用户不存在");
+        }
+
+        if (!Objects.equals(userDto.getPassword(), user.getPassword())) {
             return Result.FAIL("密码不一致");
         }
 
-        catch (RuntimeException e){
-
-        e.printStackTrace();
-
-        return Result.FAIL("查询数据库出错");
+        return Result.OK(userMapperStr.toUserVo(user));
     }
-    }
+
 
     /**
      * 根据userId 批量获取用户信息
@@ -103,23 +98,18 @@ public class UserControllerServiceImpl implements UserControllerService {
      * @param userId
      * @return Result
      */
+    //TODO 这里还没 完成
     @Override
+    @ServiceLayer(value = "",module = "用户注销")
     public Result deleteUserById(String userId) {
-        try{
-            try{
-                userMapper.softDeleteUser(userId);
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-            WebSocketVo webSocketVo = new WebSocketVo();
-            webSocketVo.setMessageType(WebSocketMessageType.FRIEND_DELETE);
-            webSocketVo.setMessageFrom(userId);
-            rabbitMQSendPrimaryMessageService.sendPrivateMessage(webSocketVo);
+        int i = userMapper.softDeleteUser(userId);
+        WebSocketVo webSocketVo = new WebSocketVo();
+        webSocketVo.setMessageType(WebSocketMessageType.FRIEND_DELETE);
+        webSocketVo.setMessageFrom(userId);
+        webSocketVo.setType(WebSocketVo.publicType);
+        rabbitMQSendPrimaryMessageService.sendPrivateMessage(webSocketVo);
 
-        }catch (RuntimeException e){
-
-        }
-        return null;
+        return i> 0 ? Result.OK(userId) : Result.FAIL("注销失败");
     }
 
     /**
@@ -135,11 +125,23 @@ public class UserControllerServiceImpl implements UserControllerService {
         try{
             List<User> userList = userMapper.selectByUserIdByLike(keyword);
             //如果非空就返回，空的话返回一个新数组
-            return Result.OK(Objects.requireNonNullElseGet(userList, () -> new ArrayList<User>()));
+            return Result.OK(Objects.requireNonNullElseGet(userMapperStr.toVOList(userList), () -> Collections.emptyList()));
         }catch (Exception e){
             e.printStackTrace();
             //返回空数组
-            return Result.OK(new ArrayList<User>());
+            return Result.OK(Collections.emptyList());
         }
+    }
+
+    /**
+     * 查询一个用户的信息除了密码
+     *
+     * @param userId
+     * @return
+     */
+    @Override
+    public Result findUserByUserId(String userId) {
+        User user = userMapper.selectOneByUserId(userId);
+        return user != null ? Result.OK(userMapperStr.toUserVo(user)) : Result.FAIL(false);
     }
 }

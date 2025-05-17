@@ -22,5 +22,5 @@ public interface GroupMessageControllerService {
      * @param groupId
      * @return
      */
-    public Result findGroupMessageByGroupId(String groupId);
+    public Result findGroupMessageByGroupId(Integer groupId);
 }

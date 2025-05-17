@@ -1,5 +1,6 @@
 package com.chat.service.minioservice;
 
+import com.chat.common.utils.Result;
 import me.doudan.doc.annotation.ServiceLayer;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,7 +16,7 @@ public interface MinioService {
      * @return 返回存储完的名字
      */
     @ServiceLayer(value = "把文件发送到minio",module = "上传文件到服务器")
-    String minioUploadFile(String bucketName,  MultipartFile file);
+    Result minioUploadFile(String bucketName, MultipartFile file);
 
     /**
      * 删除文件
@@ -24,6 +25,6 @@ public interface MinioService {
      * @return 删除的文件名
      */
     @ServiceLayer("删除minio文件")
-    String minioDeleteFile(String bucketName, String fileName);
+    Result minioDeleteFile(String bucketName, String fileName);
 
 }

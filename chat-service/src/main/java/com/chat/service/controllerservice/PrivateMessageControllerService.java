@@ -2,8 +2,7 @@ package com.chat.service.controllerservice;
 
 import com.chat.common.dto.PrivateMessageDto;
 import com.chat.common.model.PrivateMessage;
-
-import javax.xml.transform.Result;
+import com.chat.common.utils.Result;
 
 public interface PrivateMessageControllerService {
 
@@ -15,7 +14,7 @@ public interface PrivateMessageControllerService {
      * @param toUserId
      * @return
      */
-    public Result findTwoFriendPrivateMessages(String UserId,String toUserId);
+    public Result findTwoFriendPrivateMessages(String UserId, String toUserId);
 
     /**
      * 增加一条好友信息

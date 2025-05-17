@@ -23,4 +23,11 @@ public interface UserRelationControllerService {
      * @return
      */
     public Result deleteUserRelation(UserRelationDto userRelationDto);
+
+    /**
+     * 获取用户的所有好友信息
+     * @param userId
+     */
+
+    public Result findUserAllRelationAndInfo(String userId);
 }

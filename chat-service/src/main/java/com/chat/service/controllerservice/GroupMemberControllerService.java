@@ -1,7 +1,9 @@
 package com.chat.service.controllerservice;
 
+import com.chat.common.constant.ModuleConstant;
 import com.chat.common.dto.GroupMemberDto;
 import com.chat.common.utils.Result;
+import me.doudan.doc.annotation.ServiceLayer;
 
 
 public interface GroupMemberControllerService {
@@ -27,10 +29,17 @@ public interface GroupMemberControllerService {
     public Result addGroupMember(GroupMemberDto groupMemberDto) ;
 
     /**
-     * 获取用户左右的群信息
+     * 获取用户所有的群信息
      * 1  查询数据库返回信息s
      * @param userId  用户userId
      * @return
      */
     public Result findGroupsByUserId(String userId) ;
+
+
+    /**
+     * 获取群的所有群成员
+     */
+    @ServiceLayer(value = "获取一个群的所有群成员信息",module = ModuleConstant.MODULE_THE_GROUP_ALL_MEMBERS_INFO)
+    public Result findGroupAllMembersByGroupId(Integer groupId) ;
 }

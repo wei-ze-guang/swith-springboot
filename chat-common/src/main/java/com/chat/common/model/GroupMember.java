@@ -16,7 +16,7 @@ public class GroupMember {
     private Long id;
 
     /** 群ID */
-    private Long groupId;
+    private Integer groupId;
 
     /** 用户ID, 英文字母和数字开头 */
     private String userId;
@@ -28,8 +28,8 @@ public class GroupMember {
     private LocalDateTime updatedAt;
 
     /** 群身份：1=群主，2=管理员，0=成员，其他=其他 */
-    private Integer identity;
+    private int  identity;
 
     /** 是否逻辑删除：0=正常，1=已删除 */
-    private Integer isDeleted;
+    private int isDeleted;
 }

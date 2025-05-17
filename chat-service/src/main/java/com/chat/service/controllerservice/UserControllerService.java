@@ -55,4 +55,11 @@ public interface UserControllerService {
 
     public Result searchUserLikeAndNotFriend( String keyword);
 
+    /**
+     * 查询一个用户的信息除了密码
+     * @param userId
+     * @return
+     */
+    public Result findUserByUserId(String userId);
+
 }

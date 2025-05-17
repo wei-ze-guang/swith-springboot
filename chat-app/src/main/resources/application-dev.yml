@@ -4,6 +4,19 @@ spring:
 #    web:
 #      resources:
 #        static-locations: classpath:/static/
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      database: 0
+      timeout: 5000
+      lettuce:
+        pool:
+          max-active: 10
+          max-idle: 8
+          min-idle: 0
+          max-wait: 1000ms
+
   datasource:
     url: jdbc:mysql://localhost:3306/swith_chat
     username: root
@@ -44,6 +57,7 @@ spring:
     password: guest  # 默认密码
     virtual-host: /
 
+
 minio:
   endpoint: http://localhost:9000  # MinIO 服务器地址
   access-key: minioadmin          # 访问密钥（默认）
@@ -56,4 +70,4 @@ mybatis:
 #  mapper-locations: classpath:mappers/*.xml
   configuration:
     map-underscore-to-camel-case: true
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

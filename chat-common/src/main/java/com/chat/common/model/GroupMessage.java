@@ -30,7 +30,7 @@ public class GroupMessage {
     /**
      * 消息类型（0: 文本, 1: 图片, 2: 视频 等）
      */
-    private Integer messageType;
+    private byte messageType;
 
     /**
      * 资源地址，如图片/视频链接
@@ -55,10 +55,10 @@ public class GroupMessage {
     /**
      * 是否逻辑删除（0: 否，1: 是）
      */
-    private Integer isDeleted;
+    private byte isDeleted;
 
     /**
      * 消息状态（0: 已发送，1: 已读）
      */
-    private Integer status;
+    private byte status;
 }

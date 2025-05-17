@@ -12,7 +12,7 @@ public interface GroupInfoControllerService {
      * @param groupId
      * @return Result
      */
-    public Result findGroupInfoByGroupId(Long groupId) ;
+    public Result findGroupInfoByGroupId(Integer groupId) ;
 
     /**
      * 根据关键词查群群信息
@@ -36,5 +36,5 @@ public interface GroupInfoControllerService {
      * @param groupId
      * @return
      */
-    public Result updateGroupInfo(Long groupId) ;
+    public Result updateGroupInfo(Integer groupId) ;
 }

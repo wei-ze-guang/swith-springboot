@@ -22,9 +22,12 @@ public class UserRelation {
      * 好友id
      */
     private String friendUserId;
+
     private LocalDateTime createdAt;
+
     private LocalDateTime updatedAt;
-    private Integer isDeleted;
+
+    private int isDeleted;
     /**
      * 好友备注
      */

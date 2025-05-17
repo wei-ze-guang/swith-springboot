@@ -1,7 +1,10 @@
 package com.chat.common.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+
 @Schema(name = "privateMessage Ov 私信相关接口 ",description = "发送信息，获取好友之家的信息")
+@Data
 public class PrivateMessageVo {
 
     @Schema(description = "消息id，唯一，服务生成")
