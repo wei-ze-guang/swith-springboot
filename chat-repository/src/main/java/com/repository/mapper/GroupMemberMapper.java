@@ -47,11 +47,11 @@ public interface GroupMemberMapper {
     int updateGroupMemberIsDeleted(@Param("groupId") Integer groupId, @Param("userId") String userId);
 
     /**
-     * 获取一个用户的所加入的群
+     * 获取一个用户的所加入的群包括群信息
      *  group_info.user_id  是群主
      */
     @DataLayer(value = "根据userId获取这个人所有加入的群的信息",module = ModuleConstant.MODULE_FIND_USER_ALL_GROUP_JOIN_INFO)
-    @Select("select group_member.group_id, group_info.user_id,group_info.avatar,group_info.group_name,group_info.notice,group_info.introduce from  group_member join group_info on group_member.group_id " +
+    @Select("select group_member.group_id,group_info.avatar, group_info.user_id,group_info.avatar,group_info.group_name,group_info.notice,group_info.introduce from  group_member join group_info on group_member.group_id " +
             "= group_info.group_id where group_member.user_id = #{userId} and group_member.is_deleted = 0")
     List<GroupInfo> getGroupMembers( @Param("userId") String userId);
 

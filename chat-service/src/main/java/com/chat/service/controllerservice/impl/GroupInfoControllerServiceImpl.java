@@ -100,7 +100,6 @@ public class GroupInfoControllerServiceImpl implements GroupInfoControllerServic
         // 定义事务属性
         DefaultTransactionDefinition def = new DefaultTransactionDefinition();
         def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
-
         // 获取事务状态
         TransactionStatus status = transactionManager.getTransaction(def);
 
