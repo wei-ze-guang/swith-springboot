@@ -27,6 +27,7 @@ public class WebSocketChatHandler implements WebSocketHandler {
     @Override
     public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
         String payload = (String) message.getPayload();
+        log.info("chat websocket收到字符串:{}", payload);
         JsonNode jsonNode = objectMapper.readTree(payload);
         int webSocketMessageType = jsonNode.get("type").asInt();
         /**0 是登录*/
@@ -43,8 +44,6 @@ public class WebSocketChatHandler implements WebSocketHandler {
         }else {
             log.error("错误类型");
         }
-
-
     }
 
     @Override
@@ -78,23 +77,3 @@ public class WebSocketChatHandler implements WebSocketHandler {
 }
 
 
-class WebSocketDTO {
-    private int webSocketMessageType;
-    private String userId;
-
-    public void setWebSocketMessageType(int webSocketMessageType) {
-        this.webSocketMessageType = webSocketMessageType;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public int getWebSocketMessageType() {
-        return webSocketMessageType;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-}

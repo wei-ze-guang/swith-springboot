@@ -3,6 +3,7 @@ package com.chat.web.controller;
 import com.chat.common.constant.ModuleConstant;
 import com.chat.common.utils.Result;
 import com.chat.service.minioservice.MinioService;
+import io.minio.errors.MinioException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -35,6 +36,18 @@ public class MinioController {
     @Operation(description = "下载文件，方法是GET请求，参数是fileName")
     public Result downloadFile(@PathVariable String fileName) {
         return Result.OK("");
+
+    }
+
+    @GetMapping(path = "/url/download")
+    @Operation(description = "获取下载的minio预签名url ，方法是GET请求，参数是bucketName,objectName,len(默认60分钟")
+    public Result getDownloadUrl (@RequestParam String objectName) throws MinioException {
+        try {
+            return minioService.generatePresignedDownloadUrl(objectName);
+        }catch (Exception e){
+            e.printStackTrace();
+            return Result.FAIL("获取下载连接失败");
+        }
 
     }
 

@@ -1,0 +1,7 @@
+FROM openjdk:17-jdk-slim
+# HelloWorld.jar  是编译后的全名
+COPY HelloWorld.jar /app/HelloWorld.jar
+# 下面是docker自己的目录
+WORKDIR /app
+#  下面是命令集
+CMD ["java", "-jar", "HelloWorld.jar"]

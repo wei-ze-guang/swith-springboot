@@ -7,12 +7,14 @@ import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
@@ -22,6 +24,17 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
+
+    /**
+     * 处理没有的uri
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(NoHandlerFoundException.class)
+    @ResponseBody
+    public Result handle404(NoHandlerFoundException e) {
+        return Result.FAIL(ErrorCodeEnum.NOT_FOUND);
+    }
 
     // 处理请求体参数校验失败异常（POST请求中@RequestBody校验）
     @ExceptionHandler(MethodArgumentNotValidException.class)

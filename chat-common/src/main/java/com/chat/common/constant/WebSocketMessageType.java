@@ -16,6 +16,9 @@ public enum WebSocketMessageType {
      * 私聊视频消息
      */
     PRIVATE_VIDEO_ONLINE_MESSAGE("好友发送来视频消息请求"),
+
+    PRIVATE_AGREE_REQUEST("对方同意你的视频请求"),
+
     PRIVATE_VOICE_ONLINE_MESSAGE("好友发送来语音消息请求"),
     /**
      * 新好友
@@ -37,6 +40,13 @@ public enum WebSocketMessageType {
     GROUP_MESSAGE("收到群组内新信息，但是不是视频语音在线聊天"),
 
     GROUP_VIDEO_ONLINE_MESSAGE("群组发送来视频消息"),
+
+    USER_NOT_ONLINE("用户不在线"),
+
+    USER_REJECT_YOUR_ONLINE_VIDEO("用户拒绝你的视频请求"),
+
+    USER_REJECT_YOUR_ONLINE_AUDIO("用户拒绝你的视频请求"),
+
     GROUP_VOICE_ONLINE_MESSAGE("群组发送来语音消息"),
 
     /**
@@ -50,11 +60,14 @@ public enum WebSocketMessageType {
      */
     GROUP_MEMBER_EXIT("有成员退出群组"),
 
+    ERROR_MESSAGE("错误信息"),
+
     /**
      * 群组解散
      * 已处理一半
      */
     GROUP_DESTROY("群组已解散");
+
 
 
     private final String description;

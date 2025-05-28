@@ -41,15 +41,12 @@
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct-processor</artifactId>
-<!--            <scope>provided</scope>  &lt;!&ndash; 只在编译时有效 &ndash;&gt;-->
         </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok-mapstruct-binding</artifactId>
         </dependency>
-
-
 
         <dependency>
             <groupId>me.goudan</groupId>

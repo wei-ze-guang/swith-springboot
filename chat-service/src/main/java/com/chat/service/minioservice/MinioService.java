@@ -1,8 +1,13 @@
 package com.chat.service.minioservice;
 
 import com.chat.common.utils.Result;
+import io.minio.GetPresignedObjectUrlArgs;
+import io.minio.errors.MinioException;
+import io.minio.http.Method;
 import me.doudan.doc.annotation.ServiceLayer;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author goudan
@@ -26,5 +31,14 @@ public interface MinioService {
      */
     @ServiceLayer("删除minio文件")
     Result minioDeleteFile(String bucketName, String fileName);
+
+
+    /**
+     * 生成预签名下载 URL
+     * @param objectName 对象名称
+     * @return 预签名 URL
+     * @throws MinioException 异常
+     */
+    public Result generatePresignedDownloadUrl( String objectName) throws MinioException;
 
 }

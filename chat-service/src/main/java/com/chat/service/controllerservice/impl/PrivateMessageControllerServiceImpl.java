@@ -63,12 +63,13 @@ public class PrivateMessageControllerServiceImpl implements PrivateMessageContro
         log.info(privateMessage.toString());
         int i = privateMessageMapper.insertPrivateMessage(privateMessage);
         if(i > 0 ){
+            privateMessageDto.setId(id);
             WebSocketVo webSocketVo = new WebSocketVo();
             webSocketVo.setMessageFrom(privateMessageDto.getUserId());
             webSocketVo.setMessageTo(privateMessageDto.getToUserId());
             webSocketVo.setMessageType(WebSocketMessageType.PRIVATE_MESSAGE);
             webSocketVo.setType(WebSocketVo.privateType);
-            webSocketVo.setMessageBody(privateMessage);
+            webSocketVo.setMessageBody(privateMessageDto);
             rabbitMQSendPrimaryMessageService.sendPrivateMessage(webSocketVo);
         }
         return i > 0 ? Result.OK(privateMessage) : Result.FAIL(false);

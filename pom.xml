@@ -232,7 +232,7 @@
                             <groupId>org.mapstruct</groupId>
                             <artifactId>mapstruct-processor</artifactId>
                             <version>${map.mapstruct.version}</version>
-                            <scope>provided</scope>
+<!--                            <scope>provided</scope>-->
                         </path>
 
                         <path>
