@@ -48,12 +48,17 @@
             <artifactId>lombok-mapstruct-binding</artifactId>
         </dependency>
 
+<!--        <dependency>-->
+<!--            <groupId>me.goudan</groupId>-->
+<!--            <artifactId>doc-method-help</artifactId>-->
+<!--            <version>1.0-SNAPSHOT</version>-->
+<!--            <scope>system</scope>-->
+<!--            <systemPath>C:/Users/86199/.m2/repository/me/goudan/doc-method-help/1.0-SNAPSHOT/doc-method-help-1.0-SNAPSHOT.jar</systemPath>-->
+<!--        </dependency>-->
         <dependency>
-            <groupId>me.goudan</groupId>
+            <groupId>com.im</groupId>
             <artifactId>doc-method-help</artifactId>
             <version>1.0-SNAPSHOT</version>
-            <scope>system</scope>
-            <systemPath>C:/Users/86199/.m2/repository/me/goudan/doc-method-help/1.0-SNAPSHOT/doc-method-help-1.0-SNAPSHOT.jar</systemPath>
         </dependency>
 
         <dependency>

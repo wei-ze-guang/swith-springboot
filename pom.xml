@@ -23,6 +23,7 @@
         <module>chat-web</module>
         <module>chat-service</module>
         <module>chat-websocket</module>
+        <module>doc-method-help</module>
     </modules>
 
     <properties>
