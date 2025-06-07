@@ -1,0 +1,42 @@
+name: Deploy Spring Boot App
+
+on:
+  push:
+    branches:
+      - master   # 根据你的分支名写
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 拉取代码
+        uses: actions/checkout@v3
+
+      - name: 安装 JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'    # 你项目需要的 Java 版本
+
+      - name: 构建项目（使用 Maven）
+        run: mvn clean package -DskipTests
+
+      - name: 上传 jar 包到服务器
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: 8.138.190.80
+          username: root
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "target/*.jar"
+          target: "/opt/springboot-app"
+
+      - name: 在服务器上重启 Spring Boot 应用
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: 8.138.190.80
+          username: root
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            pkill -f 'java -jar' || true
+            nohup java -jar /opt/springboot-app/*.jar > /opt/springboot-app/app.log 2>&1 &
