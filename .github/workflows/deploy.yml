@@ -39,13 +39,13 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
           echo "==== 查看上传的 JAR ===="
-          ls -lh /opt/springboot-app/*.jar || (echo "没有上传成功，部署终止" && exit 1)
+          ls -lh /opt/springboot-app/target/*.jar || (echo "没有上传成功，部署终止" && exit 1)
         
           echo "==== 杀掉旧进程 ===="
           pkill -f 'java -jar' || true
         
           echo "==== 启动新服务 ===="
-          nohup java -jar /opt/springboot-app/*.jar > /opt/springboot-app/app.log 2>&1 &
+          nohup java -jar /opt/springboot-app/target/*.jar > /opt/springboot-app/app.log 2>&1 &
         
           echo "==== 启动完成，日志如下 ===="
           sleep 3
