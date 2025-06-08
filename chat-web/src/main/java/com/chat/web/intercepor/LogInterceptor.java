@@ -13,8 +13,17 @@ public class LogInterceptor implements HandlerInterceptor {
 //        long startTime = System.currentTimeMillis();
 //        request.setAttribute("startTime", startTime); // 将请求的起始时间放入请求属性中
         System.out.println("Request Path: " + request.getRequestURI() );
-        // 处理跨域
-        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+
+        HttpServletRequest req = request;
+        HttpServletResponse resp = response;
+        String upgradeHeader = req.getHeader("Upgrade");
+        String uri = req.getRequestURI();
+
+        // ✅ 放行所有 OPTIONS 预检请求  处理跨域
+        if ("OPTIONS".equalsIgnoreCase(req.getMethod()) || "websocket".equalsIgnoreCase(upgradeHeader)
+                || uri.contains("/users/login")) {
+            resp.setStatus(HttpServletResponse.SC_OK);
+//            log.info("OPTIONS 请求，放行");
             return true;
         }
 
