@@ -13,6 +13,11 @@ public class LogInterceptor implements HandlerInterceptor {
 //        long startTime = System.currentTimeMillis();
 //        request.setAttribute("startTime", startTime); // 将请求的起始时间放入请求属性中
         System.out.println("Request Path: " + request.getRequestURI() );
+        // 处理跨域
+        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+            return true;
+        }
+
         return true;  // 返回 true，表示请求可以继续处理，返回 false 可以阻止请求继续处理
     }
 
