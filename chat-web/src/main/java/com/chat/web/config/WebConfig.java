@@ -19,20 +19,19 @@ public class WebConfig implements WebMvcConfigurer {
     }
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        // 设置允许跨域的路径
         registry.addMapping("/**")
-                // 设置允许跨域请求的域名
-                .allowedOriginPatterns("*")
-                // 是否允许cookie
-                .allowCredentials(false)
-                // 设置允许的请求方式
+                // 如果前端是localhost:5173，明确写出具体域名，不要用 "*"
+                .allowedOriginPatterns("http://localhost:5173", "http://www.weizeg.top","http://8.138.190.80")
+                // 允许的方法
                 .allowedMethods("GET", "POST", "DELETE", "PUT", "OPTIONS")
-                // 设置允许的header属性
-                .allowedHeaders("*")
-                .allowedHeaders("Authorization", "Content-Type") // ✅ 允许自定义头
-                // 跨域允许时间
-                .maxAge(3600).allowCredentials(true);
+                // 允许的请求头
+                .allowedHeaders("Authorization", "Content-Type", "X-Requested-With", "Accept")
+                // 允许携带cookie
+                .allowCredentials(true)
+                // 预检请求的缓存时间（秒）
+                .maxAge(3600);
     }
+
 
 
 }
