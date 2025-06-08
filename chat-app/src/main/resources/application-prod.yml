@@ -24,7 +24,7 @@ spring:
           max-wait: 1000ms
 
   datasource:
-    url: jdbc:mysql://localhost:3306/swith_chat
+    url: jdbc:mysql://rm-cn-8t84aqa8l000bcpo.rwlb.rds.aliyuncs.com:3306/swith_chat
     username: root
     password: a132b465
     driver-class-name: com.mysql.cj.jdbc.Driver
