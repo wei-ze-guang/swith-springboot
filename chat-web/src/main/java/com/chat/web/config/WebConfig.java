@@ -21,7 +21,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 // 如果前端是localhost:5173，明确写出具体域名，不要用 "*"
-                .allowedOriginPatterns("http://localhost:5173", "http://www.weizeg.top","http://8.138.190.80")
+                .allowedOriginPatterns("https://weizeg.top", "https://www.weizeg.top","https://8.138.190.80")
                 // 允许的方法
                 .allowedMethods("GET", "POST", "DELETE", "PUT", "OPTIONS")
                 // 允许的请求头
