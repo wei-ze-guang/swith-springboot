@@ -118,8 +118,9 @@ public class WebRTCSocketHandler implements WebSocketHandler {
         webSocketVo.setMessageFrom(webRTCVO.getCallFrom());
         webSocketVo.setMessageTo(webRTCVO.getCallTo());
         WebSocketSession callToSession= webSocketChatHandler.getSession(webRTCVO.getCallTo());
-        callToSession.sendMessage(new TextMessage(mapper.writeValueAsString(webSocketVo))
-        );
+
+        if(callToSession != null && callToSession.isOpen())
+            callToSession.sendMessage(new TextMessage(mapper.writeValueAsString(webSocketVo)));
     }
     /**处理登录*/
     private void doLogin(WebSocketSession session,String userId) throws IOException {
