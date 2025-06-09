@@ -31,23 +31,23 @@ jobs:
           source: "chat-app/target/*.jar"
           target: "/opt/springboot-app"
 
-      - name: 在服务器上重启 Spring Boot 应用
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: 8.138.190.80
-          username: root
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            echo "==== 查看上传的 JAR ===="
-            ls -lh /opt/springboot-app/chat-app/target/*.jar || (echo "没有上传成功，部署终止" && exit 1)
-          
-            echo "==== 杀掉旧进程 ===="
-            pkill -f 'java -jar' || true
-          
-            echo "==== 启动新服务 ===="
-            nohup java -jar /opt/springboot-app/chat-app/target/*.jar > /opt/springboot-app/app.log 2>&1 &
-          
-            echo "==== 启动完成，日志如下 ===="
-            sleep 3
-            tail -n 30 /opt/springboot-app/app.log
+#      - name: 在服务器上重启 Spring Boot 应用
+#        uses: appleboy/ssh-action@v1.0.3
+#        with:
+#          host: 8.138.190.80
+#          username: root
+#          key: ${{ secrets.SSH_PRIVATE_KEY }}
+#          script: |
+#            echo "==== 查看上传的 JAR ===="
+#            ls -lh /opt/springboot-app/chat-app/target/*.jar || (echo "没有上传成功，部署终止" && exit 1)
+#
+#            echo "==== 杀掉旧进程 ===="
+#            pkill -f 'java -jar' || true
+#
+#            echo "==== 启动新服务 ===="
+#            nohup java -jar /opt/springboot-app/chat-app/target/*.jar > /opt/springboot-app/app.log 2>&1 &
+#
+#            echo "==== 启动完成，日志如下 ===="
+#            sleep 3
+#            tail -n 30 /opt/springboot-app/app.log
 
