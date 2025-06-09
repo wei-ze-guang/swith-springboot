@@ -24,16 +24,15 @@ spring:
           max-wait: 1000ms
 
   datasource:
-datasource:
-    url: jdbc:mysql://rm-cn-8t84aqa8l000bcpo.rwlb.rds.aliyuncs.com:3306/swith_chat?useSSL=false&serverTimezone=Asia/Shanghai
-    username: super
-    password: Ata1234@
-    driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://rm-cn-8t84aqa8l000bcpo.rwlb.rds.aliyuncs.com:3306/swith_chat?useSSL=false&serverTimezone=Asia/Shanghai
+      username: super
+      password: Ata1234@
+      driver-class-name: com.mysql.cj.jdbc.Driver
 
-servlet:
-  multipart:
-    max-file-size: 200MB  # 设置上传单个文件的最大大小
-    max-request-size: 200MB  # 设置整个请求的最大大小
+  servlet:
+    multipart:
+      max-file-size: 200MB  # 设置上传单个文件的最大大小
+      max-request-size: 200MB  # 设置整个请求的最大大小
 
   rabbitmq:
     host: localhost  # RabbitMQ 服务器地址
