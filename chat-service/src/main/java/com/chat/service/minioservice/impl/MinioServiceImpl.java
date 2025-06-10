@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -35,27 +37,50 @@ public class MinioServiceImpl implements MinioService {
      */
     @Override
     public Result minioUploadFile(String bucketName, MultipartFile file){
-        String fileName= UUID.randomUUID() + "_" + file.getOriginalFilename();
+//        String fileName= UUID.randomUUID() + "_" + file.getOriginalFilename();
+//
+//        try{
+//            // 先检查存储桶是否存在
+//            boolean bucketExists = minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucketName).build());
+//            if (!bucketExists) {
+//                minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucketName).build());
+//            }
+//
+//            // 上传文件
+//            minioClient.putObject(
+//                    PutObjectArgs.builder()
+//                            .bucket(bucketName)
+//                            .object(fileName)
+//                            .stream(file.getInputStream(), file.getSize(), -1)
+//                            .contentType(file.getContentType())
+//                            .build()
+//            );
+//            return Result.OK(fileName);
+//        } catch (Exception e) {
+//            log.error("文件上传到minio失败");
+//            return Result.FAIL(false);
+//        }
+        // 生成文件名，避免冲突
+        String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
 
-        try{
-            // 先检查存储桶是否存在
-            boolean bucketExists = minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucketName).build());
-            if (!bucketExists) {
-                minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucketName).build());
-            }
+        // 定义本地存储路径，假设每个桶用一个文件夹来区分
+        String basePath = "/var/www/uploads/";
+        File dir = new File(basePath + bucketName);
+        if (!dir.exists()) {
+            dir.mkdirs(); // 不存在就创建目录
+        }
 
-            // 上传文件
-            minioClient.putObject(
-                    PutObjectArgs.builder()
-                            .bucket(bucketName)
-                            .object(fileName)
-                            .stream(file.getInputStream(), file.getSize(), -1)
-                            .contentType(file.getContentType())
-                            .build()
-            );
+        // 目标文件完整路径
+        File destFile = new File(dir, fileName);
+
+        try {
+            // MultipartFile 写入到本地文件
+            file.transferTo(destFile);
+
+            // 返回文件名，或者返回访问路径，看你接口定义
             return Result.OK(fileName);
-        } catch (Exception e) {
-            log.error("文件上传到minio失败");
+        } catch (IOException e) {
+            log.error("文件上传失败", e);
             return Result.FAIL(false);
         }
     }

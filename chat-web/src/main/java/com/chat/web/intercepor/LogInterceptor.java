@@ -23,7 +23,6 @@ public class LogInterceptor implements HandlerInterceptor {
         if ("OPTIONS".equalsIgnoreCase(req.getMethod()) || "websocket".equalsIgnoreCase(upgradeHeader)
                 || uri.contains("/users/login")) {
             resp.setStatus(HttpServletResponse.SC_OK);
-//            log.info("OPTIONS 请求，放行");
             return true;
         }
 
