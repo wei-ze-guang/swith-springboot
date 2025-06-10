@@ -83,7 +83,7 @@ public class GroupMemberControllerServiceImpl implements GroupMemberControllerSe
     @Override
     @Transactional
     public Result addGroupMember(GroupMemberDto groupMemberDto) {
-        Integer isDeleted = groupMemberMapper.selectGroupMemberRelation(groupMemberMapperStr.toGroupMember(groupMemberDto));
+        Integer isDeleted = (Integer) groupMemberMapper.selectGroupMemberRelation(groupMemberMapperStr.toGroupMember(groupMemberDto));
         if(isDeleted != null) {
             if(isDeleted == 1){
                 int i = groupMemberMapper.updateGroupMember(groupMemberMapperStr.toGroupMember(groupMemberDto));

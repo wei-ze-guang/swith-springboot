@@ -28,7 +28,7 @@ public interface GroupMemberMapper {
      * @return
      */
     @Select("select group_member.is_deleted from group_member where group_id=#{groupId} and user_id= #{userId}")
-    int selectGroupMemberRelation(GroupMember groupMember);
+    Integer selectGroupMemberRelation(GroupMember groupMember);
 
     /**
      * 更新is_deleted
