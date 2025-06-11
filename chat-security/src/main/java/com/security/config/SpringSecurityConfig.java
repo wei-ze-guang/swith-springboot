@@ -1,8 +1,6 @@
 package com.security.config;
 
-import com.security.handle.HandleLogoutSuccess;
-import com.security.handle.HandleSecurityAuthFail;
-import com.security.handle.HandleSecurityAuthSuccess;
+import com.security.handle.*;
 import com.security.impl.ChatUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -41,6 +39,11 @@ public class SpringSecurityConfig {
                         .successHandler(new HandleSecurityAuthSuccess())
                         // 登录失败处理：方式二：自定义处理器（推荐）
                         .failureHandler(new HandleSecurityAuthFail())
+                )
+                // 异常处理配置 —— ✅ 这里是你要的重点
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint(new HandleAuthenticationEntryPoint()) // 未登录或token错误
+                        .accessDeniedHandler(new HandleAccessDeniedHandler()) // 已登录但权限不足
                 )
 
                 .logout(logout -> logout

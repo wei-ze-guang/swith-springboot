@@ -6,18 +6,17 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.AuthenticationEntryPoint;
 
 import java.io.IOException;
 
 /**
- * 用户认证失败回调
+ * 未认证，这个是认证失败
  */
-public class HandleSecurityAuthFail implements AuthenticationFailureHandler {
+public class HandleAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
-    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         response.setContentType("application/json; charset=utf-8");
-//        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401
         Result result = Result.UNAUTHORIZED();
         String json = new ObjectMapper().writeValueAsString(result);
         response.getWriter().write(json);

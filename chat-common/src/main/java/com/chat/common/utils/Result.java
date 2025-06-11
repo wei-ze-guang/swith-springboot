@@ -20,6 +20,13 @@ public  class Result<T> {
         result.setData(data);
         return result;
     }
+
+    /**
+     * 错误请求
+     * @param data
+     * @return
+     * @param <T>
+     */
     public static <T> Result<T> BAD_REQUEST(T data){
         Result<T> result = new Result<>();
         result.setCode(ResultCode.BAD_REQUEST.getCode());
@@ -28,6 +35,12 @@ public  class Result<T> {
         return result;
     }
 
+    /**
+     * 网络错误
+     * @param data
+     * @return
+     * @param <T>
+     */
     public static <T> Result<T> INTERNAL_ERROR(T data){
         Result<T> result = new Result<>();
         result.setCode(ResultCode.INTERNAL_ERROR.getCode());
@@ -35,6 +48,13 @@ public  class Result<T> {
         result.setData(data);
         return result;
     }
+
+    /**
+     * 修改失败
+     * @param data
+     * @return
+     * @param <T>
+     */
 
     public static <T> Result<T> MODIFICATION_FAILED(T data){
         Result<T> result = new Result<>();
@@ -44,6 +64,12 @@ public  class Result<T> {
         return result;
     }
 
+    /**
+     * 删除失败
+     * @param data
+     * @return
+     * @param <T>
+     */
     public static <T> Result<T> DELETION_FAILED(T data){
         Result<T> result = new Result<>();
         result.setCode(ResultCode.DELETION_FAILED.getCode());
@@ -52,6 +78,12 @@ public  class Result<T> {
         return result;
     }
 
+    /**
+     * 创建失败
+     * @param data
+     * @return
+     * @param <T>
+     */
     public static <T> Result<T> CREATION_FAILED(T data){
         Result<T> result = new Result<>();
         result.setCode(ResultCode.CREATION_FAILED.getCode());
@@ -59,6 +91,27 @@ public  class Result<T> {
         result.setData(data);
         return result;
     }
+
+    /**
+     * 未认证或未登录（401）
+     */
+    public static <T> Result<T> UNAUTHORIZED() {
+        Result<T> result = new Result<>();
+        result.setCode(ResultCode.UNAUTHORIZED.getCode());
+        result.setMsg(ResultCode.UNAUTHORIZED.getMsg());
+        return result;
+    }
+
+    /**
+     * 已登录但权限不足（403）
+     */
+    public static <T> Result<T> FORBIDDEN() {
+        Result<T> result = new Result<>();
+        result.setCode(ResultCode.FORBIDDEN.getCode());
+        result.setMsg(ResultCode.FORBIDDEN.getMsg());
+        return result;
+    }
+
 
     public int getCode() {
         return code;
