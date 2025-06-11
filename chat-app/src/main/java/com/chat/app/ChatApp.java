@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 
 @SpringBootApplication
-@ComponentScan({"com.chat","me.doudan","com.chat.web","com.chat.service","com.chat.common","com.chat.websocket"})
+@ComponentScan({"com.chat","me.doudan","com.security","com.chat.web","com.chat.service","com.chat.common","com.chat.websocket"})
 @MapperScan("com.repository.mapper")
 @EnableTransactionManagement
 @EnableCaching

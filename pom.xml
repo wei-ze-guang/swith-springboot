@@ -24,6 +24,7 @@
         <module>chat-service</module>
         <module>chat-websocket</module>
         <module>doc-method-help</module>
+        <module>chat-security</module>
     </modules>
 
     <properties>
@@ -207,6 +208,11 @@
                 <scope>provided</scope>
             </dependency>
 
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-security</artifactId>
+                <version>3.4.3</version>
+            </dependency>
 
         </dependencies>
     </dependencyManagement>
