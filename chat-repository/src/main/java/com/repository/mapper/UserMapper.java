@@ -16,6 +16,12 @@ public interface UserMapper {
     @Select("SELECT user_id,password,avatar,gender,nick_name,signature FROM `user` WHERE user_id = #{userId} AND is_deleted = 0")
     User selectByUserId(String userId);
 
+
+    // spring security专用
+    @DataLayer(value = "根据user_id  获取用户信息",module = ModuleConstant.MODULE_LOGIN)
+    @Select("SELECT user_id,password,avatar,gender,nick_name,signature FROM `user` WHERE user_id = #{userId} AND is_deleted = 0")
+    User selectByUserIdUserToSpringSecurity(String userId);
+
     /**
      * 这个可能暂时使用不到
      * @param userId

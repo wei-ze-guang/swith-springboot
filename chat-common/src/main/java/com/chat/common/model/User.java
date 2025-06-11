@@ -12,7 +12,7 @@ public class User {
     private String friendUserId;
 
     // 主键ID，自增
-    private Long id;
+    private Integer id;
 
     // 用户唯一标识
     private String userId;
