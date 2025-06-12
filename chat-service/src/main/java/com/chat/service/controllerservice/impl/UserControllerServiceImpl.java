@@ -15,6 +15,7 @@ import me.doudan.doc.annotation.ServiceLayer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -37,6 +38,9 @@ public class UserControllerServiceImpl implements UserControllerService {
 
     @Autowired
     private RabbitMQSendPrimaryMessageService rabbitMQSendPrimaryMessageService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     /**
      * 用户注册
      * 1 把信息插入数据库，插入成功返回信息，插入失败返回注册错误信息
@@ -48,6 +52,8 @@ public class UserControllerServiceImpl implements UserControllerService {
     @ServiceLayer(value = "插入数据库，返回结果",module = "注册")
     public Result userRegister(UserDto userDto) {
             User user = userMapperStr.toUser(userDto);
+            String password = passwordEncoder.encode(user.getPassword());
+            user.setPassword(password);
             userMapper.insertUser(user);
             return Result.OK(userMapperStr.toUserVo(user));
     }

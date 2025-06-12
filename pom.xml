@@ -44,6 +44,7 @@
         <lombok.version>1.18.24</lombok.version>
         <mybatis.spring.version>3.0.3</mybatis.spring.version>
         <map.mapstruct.version>1.5.5.Final</map.mapstruct.version>
+        <jwt.version>0.11.5</jwt.version>
     </properties>
 
     <dependencyManagement>
@@ -97,6 +98,8 @@
                 <version>2.7.0</version>
             </dependency>
 
+
+
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>
@@ -108,6 +111,12 @@
 <!--                <artifactId>druid-spring-boot-starter</artifactId>-->
 <!--                <version>1.2.19</version> &lt;!&ndash; 使用适合你的 Spring Boot 版本的 Druid 版本 &ndash;&gt;-->
 <!--            </dependency>-->
+
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-captcha</artifactId>
+                <version>5.8.22</version> <!-- 或你需要的最新版本 -->
+            </dependency>
 
 
             <dependency>
@@ -152,19 +161,19 @@
             <dependency>
                 <groupId>io.jsonwebtoken</groupId>
                 <artifactId>jjwt-api</artifactId>
-                <version>0.12.6</version>  <!-- 最新版本 -->
+                <version>${jwt.version}</version>  <!-- 最新版本 -->
             </dependency>
 
             <dependency>
                 <groupId>io.jsonwebtoken</groupId>
                 <artifactId>jjwt-impl</artifactId>
-                <version>0.12.6</version> <!-- 最新版本 -->
+                <version>${jwt.version}</version> <!-- 最新版本 -->
             </dependency>
 
             <dependency>
                 <groupId>io.jsonwebtoken</groupId>
                 <artifactId>jjwt-orgjson</artifactId>
-                <version>0.12.6</version> <!-- 最新版本 -->
+                <version>${jwt.version}</version> <!-- 最新版本 -->
             </dependency>
 
             <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter -->

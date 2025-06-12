@@ -4,17 +4,16 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.Map;
+
 @Component
 public class JwtUtil {
-    // 强烈建议使用 SecretKey 生成，而非纯字符串
-    private final SecretKey secretKey = Keys.hmacShaKeyFor("your-very-very-secret-key-should-be-256-bits!".getBytes());
+    // 简化：硬编码字符串密钥（开发环境用，生产建议换成配置 + SecretKey）
+    private final String SECRET_KEY = "my-simple-secret-key-that-is-32-bytes!";
 
     // 生成包含用户信息的 JWT
     public String generateToken(Map<String, Object> extraClaims, String subject) {
@@ -22,18 +21,19 @@ public class JwtUtil {
                 .setClaims(extraClaims)
                 .setSubject(subject) // 一般是用户名
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 12)) // 12 小时
-                .signWith(secretKey, SignatureAlgorithm.HS256)
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 12)) // 12小时
+                .signWith(SignatureAlgorithm.HS256, SECRET_KEY.getBytes())
                 .compact();
     }
 
-    public Claims extractAllClaims(String token) {
-        JwtParser parser = Jwts.parser()
-                .verifyWith(secretKey) // JJWT 0.12 新写法：替代旧 setSigningKey
-                .build();
 
-        return parser.parseSignedClaims(token).getPayload();
+    public Claims extractAllClaims(String token) {
+        return Jwts.parser()
+                .setSigningKey(SECRET_KEY.getBytes())
+                .parseClaimsJws(token)
+                .getBody();
     }
+
 
     public String extractUsername(String token) {
         return extractAllClaims(token).getSubject();

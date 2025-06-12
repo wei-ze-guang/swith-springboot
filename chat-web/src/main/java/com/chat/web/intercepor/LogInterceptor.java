@@ -5,7 +5,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-
+/**
+ * Deprecated
+ */
 public class LogInterceptor implements HandlerInterceptor {
     // 在请求处理之前进行拦截
     @Override

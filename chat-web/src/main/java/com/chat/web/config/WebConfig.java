@@ -15,7 +15,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new LogInterceptor()) // 注册拦截器
                 .addPathPatterns("/**") // 拦截所有路径
-                .excludePathPatterns("/login", "/register"); // 排除不拦截的路径
+                .excludePathPatterns("/user/login", "/user/register","/auth"); // 排除不拦截的路径
     }
     @Override
     public void addCorsMappings(CorsRegistry registry) {
@@ -31,9 +31,4 @@ public class WebConfig implements WebMvcConfigurer {
                 // 预检请求的缓存时间（秒）
                 .maxAge(3600);
     }
-
-
-
-
-
 }

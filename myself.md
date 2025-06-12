@@ -18,7 +18,7 @@
 |获取用户所有的群信息|GroupMemberController#getGroup<br>UserJoinByOwnerId|||GroupMemberMapper#getGroupMemb<br>ers|
 |解散群|GroupInfoController#deleteGrou<br>pById|||GroupMessageMapper#deleteGroup<br>MessageByGroupId,GroupInfoMapp<br>er#logicalDeleteByGroupId,Grou<br>pMemberMapper#softDeleteOneGro<br>upAllMember,GroupMessageMapper<br>#softDeleteGroupMessageByGroup<br>Id|
 |注册|UserController#userRegister|||UserMapper#insertUser|
-|登录|UserController#userLogin|||UserMapper#selectByUserId,User<br>Mapper#selectByUserIdAndPasswo<br>rd|
+|登录|UserController#userLogin,AuthC<br>ontroller#userLogin|||UserMapper#selectByUserId,User<br>Mapper#selectByUserIdUserToSpr<br>ingSecurity,UserMapper#selectB<br>yUserIdAndPassword|
 |模糊查询好友信息|UserController#searchUserLikeA<br>ndNotFriend|||UserMapper#selectByUserIdByLik<br>e|
 |获取双方所有聊天记录|PrivateMessageController#getBo<br>thSidePrivateMessages|||PrivateMessageMapper#selectPri<br>vateMessageByUserIdAndToUserId|
 |用户发送群信息|GroupMessageController#sendGro<br>upMessage|||GroupMessageMapper#insertGroup<br>Message|
@@ -49,6 +49,7 @@
 |GroupInfoController#deleteGrou<br>pById|Result|Integer|逻辑上删除这个群|解散群|ControllerLayer|
 |UserController#userRegister|Result|UserDto|用户注册|注册|ControllerLayer|
 |UserController#userLogin|Result|UserDto|用户登录|登录|ControllerLayer|
+|AuthController#userLogin|Result|UserDto|用户登录|登录|ControllerLayer|
 |UserController#searchUserLikeA<br>ndNotFriend|Result|String|根据关键词模糊查询结果|模糊查询好友信息|ControllerLayer|
 |PrivateMessageController#getBo<br>thSidePrivateMessages|Result|String String|获取两个用户额所有就信息|获取双方所有聊天记录|ControllerLayer|
 |GroupMessageController#sendGro<br>upMessage|Result|GroupMessageDto|插入一条群信息|用户发送群信息|ControllerLayer|
@@ -63,6 +64,7 @@
 |GroupMemberMapper#softDeleteOn<br>eGroupAllMember|int|Integer|删除一个群的所有成员|解散群|DataLayer|
 |UserMapper#selectByUserId|User|String|根据user_id  获取用户信息|登录|DataLayer|
 |UserRelationMapper#selectUserR<br>elationIsDeleted|List|String String|查询双方的好友关系|需要检查双方好友状态|DataLayer|
+|UserMapper#selectByUserIdUserT<br>oSpringSecurity|User|String|根据user_id  获取用户信息|登录|DataLayer|
 |GroupMessageMapper#getGroupMes<br>sageByGroupId|List|Integer|根据群id获取所有效聊天记录|获取一个群的所有聊天记录|DataLayer|
 |PrivateMessageMapper#selectPri<br>vateMessageByUserIdAndToUserId|List|String String|获取好友双方的所有正常的聊天记录|获取双方所有聊天记录|DataLayer|
 |UserMapper#selectByUserIdByLik<br>e|List|String|根据userId进行模糊查询|模糊查询好友信息|DataLayer|

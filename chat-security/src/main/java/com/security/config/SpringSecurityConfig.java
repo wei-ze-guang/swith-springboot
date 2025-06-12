@@ -5,10 +5,10 @@ import com.security.impl.ChatUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -16,6 +16,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -26,17 +31,19 @@ public class SpringSecurityConfig {
 
     @Autowired
     JwtAuthenticationFilter jwtAuthenticationFilter ;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/user/login","user/register").permitAll() // 放行静态资源
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        .requestMatchers("/user/login","/user/register","/auth","/chat","/rtc","/captcha.png").permitAll() // 放行静态资源
                         .anyRequest().authenticated() // 其他请求都要认证
                 )
-
+                .cors(Customizer.withDefaults())   //这里他会自己去找web中配置的跨域配置
                 .formLogin(form -> form
-                        // 登录成功处理：方式二：自定义处理器（前后端分离推荐）
-                        .successHandler(new HandleSecurityAuthSuccess())
+                        // 登录成功处理：方式二：自定义处理器（前后端分离推荐）暂时先不使用
+//                        .successHandler(new HandleSecurityAuthSuccess())
                         // 登录失败处理：方式二：自定义处理器（推荐）
                         .failureHandler(new HandleSecurityAuthFail())
                 )
@@ -50,7 +57,6 @@ public class SpringSecurityConfig {
                         .logoutUrl("/logout") // 注销请求地址
                         .invalidateHttpSession(true) // 使 session 失效
                         .clearAuthentication(true) // 清除认证信息
-                        // .logoutSuccessUrl("/login.html") // 注销成功后重定向（用于页面式）
                         .logoutSuccessHandler(new HandleLogoutSuccess()) // 注销成功处理（用于前后端分离）
                 ).userDetailsService(userDetailsService)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
@@ -73,12 +79,19 @@ public class SpringSecurityConfig {
         return config.getAuthenticationManager();
     }
 
+    // 配置跨域策略
     @Bean
-    public DaoAuthenticationProvider daoAuthenticationProvider() {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(userDetailsService);
-        provider.setPasswordEncoder(passwordEncoder());
-        return provider;
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowedOriginPatterns(List.of("http://localhost:5173")); // 支持通配符，Spring Boot 2.4+
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        config.setAllowedHeaders(List.of("*"));
+        config.setAllowCredentials(true); // 如果前端带 Cookie，必须设置为 true
+        config.setMaxAge(3600L);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config); // 所有接口允许跨域
+        return source;
     }
 
 
