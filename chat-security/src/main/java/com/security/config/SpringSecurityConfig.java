@@ -12,6 +12,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -44,6 +45,7 @@ public class SpringSecurityConfig {
                         .anyRequest().authenticated() // 其他请求都要认证
                 )
                 .cors(Customizer.withDefaults())   //这里他会自己去找web中配置的跨域配置
+                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // ✅ 必须加
                 .formLogin(form -> form
                         // 登录成功处理：方式二：自定义处理器（前后端分离推荐）暂时先不使用
 //                        .successHandler(new HandleSecurityAuthSuccess())

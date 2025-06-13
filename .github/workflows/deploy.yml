@@ -38,6 +38,9 @@ jobs:
           username: root
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
+            echo "==== 切换目录到 /opt/springboot-app ===="
+            cd /opt/springboot-app/chat-app/target/ || (echo "❌ 目录不存在" && exit 1)
+            
             echo "==== 查看上传的 JAR ===="
             ls -lh /opt/springboot-app/chat-app/target/*.jar || (echo "没有上传成功，部署终止" && exit 1)
             

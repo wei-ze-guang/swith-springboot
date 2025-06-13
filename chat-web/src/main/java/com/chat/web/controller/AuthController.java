@@ -66,11 +66,8 @@ public class AuthController {
             String jwt = jwtUtil.generateToken(roleMap, userDetails.getUsername());
             log.info("用户验证成功 accessToken:{}", jwt);
             return Result.OK(Map.of("access_token", jwt));
-        } catch (BadCredentialsException e) {
-            return Result.UNAUTHORIZED();
-        } catch (DisabledException e) {
-            return Result.UNAUTHORIZED();
         } catch (Exception e) {
+            log.info("用户{}未认证成功",userDto.getUserId());
             return Result.UNAUTHORIZED();
         }
     }

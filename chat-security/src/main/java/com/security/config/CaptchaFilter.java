@@ -11,6 +11,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -30,7 +32,11 @@ import java.util.stream.Collectors;
 //TODO  这里的异常可能需要处理一下
 @Component
 @Slf4j
+@ConfigurationProperties(prefix = "captcha")
 public class CaptchaFilter extends OncePerRequestFilter {
+
+    @Value("${captcha.enable-captcha}")
+    private Boolean enableCaptcha = false;
 
     // 需要验证码校验的路径
     //TODO  这里可以处理位yml文件读取
@@ -59,6 +65,11 @@ public class CaptchaFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
+        //如果关闭这个功能的话直接跳过//FIXME
+        if(!enableCaptcha) {
+            filterChain.doFilter(request, response);
+            return;
+        }
         String path = request.getRequestURI();
         if ("POST".equalsIgnoreCase(request.getMethod()) && CAPTCHA_PATHS.contains(path)) {
             // 读取请求体 JSON 字符串
