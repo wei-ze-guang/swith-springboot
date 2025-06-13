@@ -51,7 +51,7 @@ jobs:
             # 清空日志文件
             > /opt/springboot-app/chat-app/target/app.log
             
-            nohup java -jar "$JAR_FILE" > /opt/springboot-app/app.log 2>&1 &
+            nohup java -jar "$JAR_FILE" > ./app.log 2>&1 &
             
             echo "==== 启动完成，等待 5 秒 ===="
             sleep 5
