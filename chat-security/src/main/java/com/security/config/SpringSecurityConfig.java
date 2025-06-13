@@ -87,7 +87,7 @@ public class SpringSecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOriginPatterns(List.of("http://localhost:5173")); // 支持通配符，Spring Boot 2.4+
+        config.setAllowedOriginPatterns(List.of("http://localhost:5173","https://www.weizeg.top","https://weizeg.top")); // 支持通配符，Spring Boot 2.4+
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true); // 如果前端带 Cookie，必须设置为 true
