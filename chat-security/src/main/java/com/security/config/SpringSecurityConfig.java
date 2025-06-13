@@ -32,6 +32,9 @@ public class SpringSecurityConfig {
     @Autowired
     JwtAuthenticationFilter jwtAuthenticationFilter ;
 
+    @Autowired
+    CaptchaFilter captchaFilter ;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
@@ -60,6 +63,7 @@ public class SpringSecurityConfig {
                         .logoutSuccessHandler(new HandleLogoutSuccess()) // 注销成功处理（用于前后端分离）
                 ).userDetailsService(userDetailsService)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(captchaFilter, UsernamePasswordAuthenticationFilter.class)
 
                 .csrf(csrf -> csrf.disable()) // 禁用 CSRF（前后端分离通常需要禁用）
                 // 5. 跨域支持（CORS，前后端分离必要）

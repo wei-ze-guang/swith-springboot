@@ -76,6 +76,10 @@
             <version>3.5.17</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-captcha</artifactId>
+        </dependency>
 
 
     </dependencies>
