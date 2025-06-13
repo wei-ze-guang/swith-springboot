@@ -11,7 +11,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import java.io.IOException;
 
 /**
- * 未认证，这个是认证失败
+ * 未认证，或者发生异常
  */
 public class HandleAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override

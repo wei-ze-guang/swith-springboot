@@ -34,7 +34,7 @@ public class CaptchaUtil {
         String code = captcha.getCode().toLowerCase();
 
         // 保存验证码到 Redis（或开发阶段用 Map 替代也可）
-        stringRedisTemplate.opsForValue().set("CAPTCHA:" + uuid, code, 5, TimeUnit.MINUTES);
+        stringRedisTemplate.opsForValue().set("CAPTCHA:" + uuid, code, 2, TimeUnit.MINUTES);
 
         // 将图片转为 Base64
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -59,9 +59,8 @@ public class CaptchaUtil {
             return false;
         }
 
-        String key = "CAPTCHA" + uuid;
+        String key = "CAPTCHA:" + uuid;
         String realCode = stringRedisTemplate.opsForValue().get(key);
-
         if (realCode != null && code.trim().equalsIgnoreCase(realCode)) {
             stringRedisTemplate.delete(key);
             return true;

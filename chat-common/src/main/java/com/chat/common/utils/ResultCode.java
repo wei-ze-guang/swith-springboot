@@ -12,6 +12,7 @@ public enum ResultCode {
     DELETION_FAILED(400, "删除失败"),
     CREATION_FAILED(400, "创建失败"),
     UNAUTHORIZED(401, "未认证或身份已过期"),
+    CAPTCHA_INVALID(499, "验证码错误"),
     FORBIDDEN(403, "权限不足");
 
 

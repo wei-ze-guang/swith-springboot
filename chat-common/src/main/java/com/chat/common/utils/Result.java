@@ -112,6 +112,17 @@ public  class Result<T> {
         return result;
     }
 
+    /**
+     * 验证码未通过（499）
+     */
+    public static <T> Result<T> captchaError() {
+        Result<T> result = new Result<>();
+        result.setCode(ResultCode.CAPTCHA_INVALID.getCode());
+        result.setMsg(ResultCode.CAPTCHA_INVALID.getMsg());
+        return result;
+    }
+
+
 
     public int getCode() {
         return code;
