@@ -61,4 +61,11 @@ public interface UserRelationMapper {
     @Select("select  is_deleted from user_relation where user_id = #{userId} and friend_user_id = #{friendUserId} \n"+
     "union all"+ " select  is_deleted from user_relation where user_id = #{friendUserId} and friend_user_id = #{userId}  ")
     List<Integer> selectUserRelationIsDeleted(@Param("userId") String userId, @Param("friendUserId") String friendUserId);
+
+    /**
+     * 删除一个用户的所有的好友关系，用于用户注销账户
+     */
+    @DataLayer(value = "删除一个用户的所有还有关系",module = ModuleConstant.MODULE_USER_EXIT)
+    @Update("update user_relation set is_deleted = 1 where user_id = #{userId} or friend_user_id = #{userId}")
+    Integer softDeleteUserAllRelations(@Param("userId") String userId);
 }

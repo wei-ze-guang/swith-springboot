@@ -41,7 +41,7 @@ public class SpringSecurityConfig {
         return http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .requestMatchers("/user/login","/user/register","/auth","/chat","/rtc","/captcha.png").permitAll() // 放行静态资源
+                        .requestMatchers("/user/login","/user/register","/auth","/chat","/rtc","/captcha.png","/user/**").permitAll() // 放行静态资源
                         .anyRequest().authenticated() // 其他请求都要认证
                 )
                 .cors(Customizer.withDefaults())   //这里他会自己去找web中配置的跨域配置

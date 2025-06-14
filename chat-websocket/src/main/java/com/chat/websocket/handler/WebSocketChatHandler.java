@@ -63,7 +63,8 @@ public class WebSocketChatHandler implements WebSocketHandler {
     }
 
     public  WebSocketSession getSession(String userId) {
-        return sessions.get(userId);
+
+        return userId != null ? sessions.get(userId) : null;
     }
 
     private void doLogin(String userId, WebSocketSession session) {

@@ -48,14 +48,18 @@ public interface UserMapper {
     @DataLayer(value = "更新用户信息",module = ModuleConstant.MODULE_FIND_ONE_USER_INFO)
     int updateUser(User user);
 
-    // 用户注销账号
+    /**
+     * 用户注销账户
+     * @param userId
+     * @return
+     */
     @Update("UPDATE `user` SET is_deleted = 1 WHERE user_id = #{userId}")
     @DataLayer(value = "逻辑删除一条user数据",module = ModuleConstant.MODULE_USER_EXIT)
-    int softDeleteUser(String userId);
+    Integer softDeleteUser(String userId);
 
     @Select("select  user_relation.friend_user_id,user.avatar,user.nick_name,user.gender,user.signature from user_relation join user on user_relation.friend_user_id = user.user_id where user_relation.user_id "+
             "= #{userId} and user_relation.is_deleted = 0 and user.is_deleted = 0")
-    @DataLayer(value = "根据userId或者这个用户的所有的好友信息",module = ModuleConstant.MODULE_FIND_USER_ALL_FRIEND_INFO)
+    @DataLayer(value = "根据userId或者获取用户的所有的好友信息",module = ModuleConstant.MODULE_FIND_USER_ALL_FRIEND_INFO)
     List<User> selectFriendUsersByUserId(String userId);
 
     @Select("  SELECT user_id,avatar,signature,gender,nick_name FROM user" +

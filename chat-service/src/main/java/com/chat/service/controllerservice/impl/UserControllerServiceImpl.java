@@ -2,13 +2,17 @@ package com.chat.service.controllerservice.impl;
 
 import com.chat.common.constant.WebSocketMessageType;
 import com.chat.common.dto.UserDto;
+import com.chat.common.exception.DbHandlerException;
+import com.chat.common.exception.ErrorCodeEnum;
 import com.chat.common.mapstructmappr.UserMapperStr;
+import com.chat.common.model.PrivateMessage;
 import com.chat.common.model.User;
 import com.chat.common.vo.UserVo;
 import com.chat.common.vo.WebSocketVo;
 import com.chat.common.utils.Result;
 import com.chat.service.controllerservice.UserControllerService;
 import com.chat.service.rabbitmqservice.RabbitMQSendPrimaryMessageService;
+import com.repository.mapper.PrivateMessageMapper;
 import com.repository.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
 import me.doudan.doc.annotation.ServiceLayer;
@@ -17,6 +21,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,6 +46,9 @@ public class UserControllerServiceImpl implements UserControllerService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private PrivateMessageMapper privateMessageMapper;
     /**
      * 用户注册
      * 1 把信息插入数据库，插入成功返回信息，插入失败返回注册错误信息
@@ -63,6 +71,7 @@ public class UserControllerServiceImpl implements UserControllerService {
      * 用户登录
      * 1 验证身份
      * 2 返回jwt和个人信息
+     * 这个引入spring security之后可能不使用了
      *
      * @param userDto
      * @return
@@ -107,15 +116,25 @@ public class UserControllerServiceImpl implements UserControllerService {
     //TODO 这里还没 完成
     @Override
     @ServiceLayer(value = "",module = "用户注销")
+    @Transactional
     public Result deleteUserById(String userId) {
-        int i = userMapper.softDeleteUser(userId);
+        log.debug("用户{}注销主机的账号:",userId);
+        //删除这个的user表信息
+        Integer i = userMapper.softDeleteUser(userId);
+
+        if(i == null || i == 0) {
+            throw new DbHandlerException(ErrorCodeEnum.NOT_FOUND);
+        }
+
+
         WebSocketVo webSocketVo = new WebSocketVo();
         webSocketVo.setMessageType(WebSocketMessageType.FRIEND_DELETE);
         webSocketVo.setMessageFrom(userId);
+        //TODO  这里需要选他所有的好友和左右的群的所有成员发送
         webSocketVo.setType(WebSocketVo.publicType);
         rabbitMQSendPrimaryMessageService.sendPrivateMessage(webSocketVo);
 
-        return i> 0 ? Result.OK(userId) : Result.FAIL("注销失败");
+        return  Result.OK(userId);
     }
 
     /**

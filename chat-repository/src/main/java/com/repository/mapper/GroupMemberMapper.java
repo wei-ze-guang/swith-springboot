@@ -80,4 +80,14 @@ public interface GroupMemberMapper {
     @Select("select user_id from group_member where group_id = #{groupId} and is_deleted = 0")
     @DataLayer(value = "获取这个群的说所有用户的userId")
     List<String> selectGroupAllMembersByGroupIdOnlyUserId(@Param("groupId") Integer groupId);
+
+    /**
+     * 删除这人所有加入的群，用户注销的时候可以使用
+     * @param userId
+     * @param groupId
+     * @return
+     */
+    @DataLayer(value = "删除一个用户所有加入的群，变为非群成员状态",.module = ModuleConstant.MODULE_USER_EXIT)
+    @Update("update group_member set  is_deleted = 1 where user_id = #{userId}")
+    Integer softOneUserAllJoinGroup(@Param("userId") String userId, @Param("groupId") Integer groupId);
 }

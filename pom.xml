@@ -25,6 +25,7 @@
         <module>chat-websocket</module>
         <module>doc-method-help</module>
         <module>chat-security</module>
+        <module>chat-log</module>
     </modules>
 
     <properties>
@@ -118,6 +119,14 @@
                 <version>5.8.22</version> <!-- 或你需要的最新版本 -->
             </dependency>
 
+            <!-- Spring Boot AOP starter，自动帮你引入aspectj相关依赖 -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-aop</artifactId>
+                <version>3.4.3</version>
+            </dependency>
+
+
 
             <dependency>
                 <groupId>org.reflections</groupId>
@@ -138,6 +147,9 @@
 <!--                <scope>runtime</scope>-->
 <!--                <optional>true</optional>-->
 <!--            </dependency>-->
+
+
+
 
             <dependency>
                 <groupId>org.projectlombok</groupId>

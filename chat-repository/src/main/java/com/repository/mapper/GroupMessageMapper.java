@@ -65,6 +65,11 @@ public interface GroupMessageMapper {
     @Update("update group_message set is_deleted = 1 where  group_id = #{groupId}")
     int softDeleteGroupMessageByGroupId(Integer groupId);
 
+    /**
+     * 删除一个人的所有群聊天信息，是所有群
+     * @param userId
+     * @return
+     */
     @DataLayer(value = "删除一个人的所有群的聊天记录",module = ModuleConstant.MODULE_USER_EXIT)
     @Update("update group_message set is_deleted = 1 where user_id = #{userId}")
     int softDeleteGroupMessageByUserId(String userId);

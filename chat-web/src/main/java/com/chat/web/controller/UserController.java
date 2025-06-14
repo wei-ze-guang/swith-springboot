@@ -57,7 +57,7 @@ public class UserController {
     @ControllerLayer(value = "用户注销",module = ModuleConstant.MODULE_USER_EXIT)
     //TODO 这里比较麻烦，暂时不做
     public Result deleteUser(@PathVariable String userId) {
-        return Result.OK(true);
+        return userControllerService.deleteUserById(userId);
     }
 
     @GetMapping("/search")

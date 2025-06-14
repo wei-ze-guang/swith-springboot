@@ -17,11 +17,6 @@ public class ChatUserDetailsService implements UserDetailsService {
     @Autowired
     private UserMapper userMapper;
     // TODO 假设这是模拟用户数据，真实项目可改成查数据库
-    private static final Map<String, String> USER_DATA = new HashMap<>();
-
-    static {
-        USER_DATA.put("goudan", "{noop}123456"); // {noop}表示不加密，仅用于测试
-    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -29,7 +24,6 @@ public class ChatUserDetailsService implements UserDetailsService {
 
         log.info("从loadUserByUsername加载出来的账号是:{},密码是:{}", user.getUserId(), user.getPassword());
 
-        String password = USER_DATA.get(username);
         if (user == null) {
             throw new UsernameNotFoundException("用户不存在");
         }

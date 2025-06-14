@@ -11,6 +11,7 @@ import java.io.IOException;
 
 /**
  * 用户认证成功回调
+ *
  */
 @Slf4j
 public class HandleSecurityAuthSuccess implements AuthenticationSuccessHandler {

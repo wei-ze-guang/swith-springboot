@@ -40,4 +40,14 @@ public interface PrivateMessageMapper {
     @Select("SELECT id,user_id,to_user_id,private_message.content,message_type,source_uri,created_at,updated_at,status,is_deleted FROM private_message WHERE is_deleted = 0 AND (user_id = #{userId} AND to_user_id = #{toUserId})"
     + "union  SELECT id,user_id,to_user_id,private_message.content,message_type,source_uri,created_at,updated_at,status,is_deleted from private_message WHERE is_deleted = 0 AND (user_id = #{toUserId} AND to_user_id = #{userId})")
     List<PrivateMessage> selectPrivateMessageByUserIdAndToUserId(@Param("userId") String userId, @Param("toUserId") String toUserId);
+
+
+    /**
+     * 删除一个用户的所有私信信息
+     * @param userId
+     * @return
+     */
+    @DataLayer(value = "删除一个用户的所有私聊信息",module = ModuleConstant.MODULE_USER_EXIT)
+    @Update("update  private_message set is_deleted = 1 where user_id = #{userId} or to_user_id = #{userId}")
+    Integer softDeleteOneUserAllPrivateMessage(@Param("userId") String userId);
 }

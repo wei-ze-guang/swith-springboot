@@ -60,8 +60,13 @@ public class PrivateMessageControllerServiceImpl implements PrivateMessageContro
         PrivateMessage privateMessage = privateMessageMapperStr.toPrivateMessage(privateMessageDto);
         long id = snowflakeIdWorker.nextId();
         privateMessage.setId(id);
+
         log.info(privateMessage.toString());
+
+        log.debug("用户:{}给用户:{}发送信息",privateMessage.getId(),privateMessage.getToUserId());
+
         int i = privateMessageMapper.insertPrivateMessage(privateMessage);
+
         if(i > 0 ){
             privateMessageDto.setId(id);
             WebSocketVo webSocketVo = new WebSocketVo();

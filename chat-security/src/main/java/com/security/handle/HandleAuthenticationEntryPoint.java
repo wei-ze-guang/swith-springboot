@@ -13,6 +13,7 @@ import java.io.IOException;
 
 /**
  * 未认证，或者发生异常
+ * 这个是能够运行的
  */
 @Slf4j
 public class HandleAuthenticationEntryPoint implements AuthenticationEntryPoint {

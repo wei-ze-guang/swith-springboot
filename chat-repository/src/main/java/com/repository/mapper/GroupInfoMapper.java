@@ -56,17 +56,12 @@ public interface GroupInfoMapper {
     @DataLayer(value = "模糊查群群",module = ModuleConstant.MODULE_FUZZY_QUERY_GROUP_INFO_BY_WORD)
     List<GroupInfo> searchByGroupName(@Param("keyword") String keyword);
 
-    // 根据 groupId 批量查询
-    @Select({
-            "<script>",
-            "SELECT * FROM group_info",
-            "WHERE is_deleted = 0",
-            "AND group_id IN",
-            "<foreach collection='groupIds' item='id' open='(' separator=',' close=')'>",
-            "#{id}",
-            "</foreach>",
-            "</script>"
-    })
-    List<GroupInfo> selectByGroupIds(@Param("groupIds") List<Long> groupIds);
+
+    /**
+     * 删除一个用户所有的群，用在用户退出群聊
+     */
+    @DataLayer(value = "删除一个用户所有自己创建群",module = ModuleConstant.MODULE_USER_EXIT)
+    @Update("update group_info set is_deleted = 1 where user_id = #{userId}")
+    Integer softOneUserAllOwnerGroup(@Param("userId") String userId);
 
 }
