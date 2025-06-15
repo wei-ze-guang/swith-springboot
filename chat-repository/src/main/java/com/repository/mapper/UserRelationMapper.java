@@ -49,7 +49,7 @@ public interface UserRelationMapper {
     //TODO  这里可以优化走索引，分为两次删除
     @DataLayer(value = "逻辑上删除一个人的全部好友",module = ModuleConstant.MODULE_DELETE_FRIEND)
     @Update("update user_relation set is_deleted = 1 where user_id = #{userId} or friend_user_id = #{userId}")
-    int softDeleteUserAllRelations(@Param("userId") int userId);
+    Integer softDeleteUserAllRelations(@Param("userId") int userId);
 
     /**
      * 查看好友双方的关系，先判断返回的数量，如果没有就是没有任何关系，如果有 长度为2才是好友，否则已经不是好友
@@ -62,10 +62,5 @@ public interface UserRelationMapper {
     "union all"+ " select  is_deleted from user_relation where user_id = #{friendUserId} and friend_user_id = #{userId}  ")
     List<Integer> selectUserRelationIsDeleted(@Param("userId") String userId, @Param("friendUserId") String friendUserId);
 
-    /**
-     * 删除一个用户的所有的好友关系，用于用户注销账户
-     */
-    @DataLayer(value = "删除一个用户的所有还有关系",module = ModuleConstant.MODULE_USER_EXIT)
-    @Update("update user_relation set is_deleted = 1 where user_id = #{userId} or friend_user_id = #{userId}")
-    Integer softDeleteUserAllRelations(@Param("userId") String userId);
+
 }

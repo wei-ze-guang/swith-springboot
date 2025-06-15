@@ -63,6 +63,7 @@ public class UserControllerServiceImpl implements UserControllerService {
             String password = passwordEncoder.encode(user.getPassword());
             user.setPassword(password);
             userMapper.insertUser(user);
+            user.setNickName("user_"+user.getUserId());
             return Result.OK(userMapperStr.toUserVo(user));
     }
 

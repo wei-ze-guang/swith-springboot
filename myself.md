@@ -2,7 +2,7 @@
 
 |module|ControllerLayer|ManagementLayer|ServiceLoader|DataLayer|
 |-----------------|-----------------|-----------------|-----------------|--------------|
-|用户注销|UserController#deleteUser|||UserMapper#softDeleteUser,Grou<br>pMessageMapper#softDeleteGroup<br>MessageByUserId|
+|用户注销|UserController#deleteUser|||PrivateMessageMapper#softDelet<br>eOneUserAllPrivateMessage,Grou<br>pInfoMapper#softOneUserAllOwne<br>rGroup,GroupMemberMapper#softO<br>neUserAllJoinGroup,UserMapper#<br>softDeleteUser,GroupMessageMap<br>per#softDeleteGroupMessageByUs<br>erId|
 |添加好友|UserRelationController#addRela<br>tion|||UserRelationMapper#insertUserR<br>elation|
 |创建群|GroupInfoController#createGrou<br>p|||GroupInfoMapper#insertGroupInf<br>o|
 |用户发送私信|PrivateMessageController#sendP<br>rivateMessage|||PrivateMessageMapper#insertPri<br>vateMessage|
@@ -56,10 +56,13 @@
 |MinioController#uploadMinioFil<br>e|Result|MultipartFile|上传文件|上传文件到minio|ControllerLayer|
 |GroupMessageMapper#softDeleteG<br>roupMessageByGroupIdAndUserId|int|Integer String|用户退出群聊或者被踢出群|用户退群:用户注销|DataLayer|
 |GroupMemberMapper#insertGroupM<br>ember|int|GroupMember|插入一条groupMerber数据|用户加群|DataLayer|
+|PrivateMessageMapper#softDelet<br>eOneUserAllPrivateMessage|Integer|String|删除一个用户的所有私聊信息|用户注销|DataLayer|
+|GroupInfoMapper#softOneUserAll<br>OwnerGroup|Integer|String|删除一个用户所有自己创建群|用户注销|DataLayer|
 |GroupInfoMapper#insertGroupInf<br>o|int|GroupInfo|创建群聊|创建群|DataLayer|
 |GroupMessageMapper#deleteGroup<br>MessageByGroupId|int|Integer|根据groupId删除这个群的全部信息|解散群|DataLayer|
 |GroupInfoMapper#searchByGroupN<br>ame|List|String|模糊查群群|模糊查询群|DataLayer|
 |GroupMessageMapper#updateGroup<br>MessageByUserIdAndGroupId|int|String Integer|逻辑删除某个用户在某个群所有groupMessage|用户退群|DataLayer|
+|GroupMemberMapper#softOneUserA<br>llJoinGroup|Integer|String Integer|删除一个用户所有加入的群，变为非群成员状态|用户注销|DataLayer|
 |GroupInfoMapper#logicalDeleteB<br>yGroupId|int|Integer|逻辑删除群|解散群|DataLayer|
 |GroupMemberMapper#softDeleteOn<br>eGroupAllMember|int|Integer|删除一个群的所有成员|解散群|DataLayer|
 |UserMapper#selectByUserId|User|String|根据user_id  获取用户信息|登录|DataLayer|
@@ -70,11 +73,11 @@
 |UserMapper#selectByUserIdByLik<br>e|List|String|根据userId进行模糊查询|模糊查询好友信息|DataLayer|
 |PrivateMessageMapper#insertPri<br>vateMessage|int|PrivateMessage|插入一条privateMessage信息|用户发送私信|DataLayer|
 |com.repository.mapper.GroupMes<br>sageMapper#getGroupAllMembersB<br>yGroupId|List|Integer|根据groupId获取一个群组所有的用户||DataLayer|
-|UserMapper#selectFriendUsersBy<br>UserId|List|String|根据userId或者这个用户的所有的好友信息|获取用户所有好友信息|DataLayer|
+|UserMapper#selectFriendUsersBy<br>UserId|List|String|根据userId或者获取用户的所有的好友信息|获取用户所有好友信息|DataLayer|
 |UserRelationMapper#softDeleteU<br>serRelation|int|UserRelation|把好友的is_deleted修改为删除状态|删除好友|DataLayer|
 |com.repository.mapper.GroupMem<br>berMapper#selectGroupAllMember<br>sByGroupIdOnlyUserId|List|Integer|获取这个群的说所有用户的userId||DataLayer|
 |GroupMemberMapper#selectGroupA<br>llMembersByGroupId|List|Integer|获取群成员所有下信息|获取一个群所有群成员信息|DataLayer|
-|UserMapper#softDeleteUser|int|String|逻辑删除一条user数据|用户注销|DataLayer|
+|UserMapper#softDeleteUser|Integer|String|逻辑删除一条user数据|用户注销|DataLayer|
 |GroupInfoMapper#selectByGroupI<br>d|GroupInfo|Integer|根据group_id  获取群信息|获取一个群信息|DataLayer|
 |UserMapper#selectOneByUserId|User|String|查询一个用户的信息除了密码|获取一个用户的信息|DataLayer|
 |GroupInfoMapper#updateByGroupI<br>d|int|GroupInfo|更新群信息|更新一个用户信息|DataLayer|
@@ -87,5 +90,5 @@
 |PrivateMessageMapper#softDelet<br>eAllPrivateMessageBothSides|int|String String|逻辑删除一条privateMessage信息，一般来说要区分一下双方|删除好友|DataLayer|
 |UserMapper#selectByUserIdAndPa<br>ssword|User|String|根据userId获取用户的个人信息，拿出来后再检查密码|登录|DataLayer|
 |UserRelationMapper#insertUserR<br>elation|int|UserRelation|插入一条好友关系数据|添加好友|DataLayer|
-|UserRelationMapper#softDeleteU<br>serAllRelations|int|int|逻辑上删除一个人的全部好友|删除好友|DataLayer|
+|UserRelationMapper#softDeleteU<br>serAllRelations|Integer|int|逻辑上删除一个人的全部好友|删除好友|DataLayer|
 |GroupMemberMapper#updateGroupM<br>emberIsDeleted|int|Integer String|修改groupMember的is_deleted为删除状态|用户退群|DataLayer|

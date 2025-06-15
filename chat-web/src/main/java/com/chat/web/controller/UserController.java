@@ -39,6 +39,9 @@ public class UserController {
     @PostMapping("/login")
     @Operation(summary = "用户登录，返回userDto")
     @ControllerLayer(value = "用户登录",module = ModuleConstant.MODULE_LOGIN)
+    /**
+     * 可能使用不到了
+     */
     public Result userLogin(@Valid @RequestBody UserDto userDto) {
         log.info("userDto:{}", userDto);
         return userControllerService.userLogin(userDto);

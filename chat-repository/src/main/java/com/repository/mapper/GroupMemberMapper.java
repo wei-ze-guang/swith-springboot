@@ -87,7 +87,7 @@ public interface GroupMemberMapper {
      * @param groupId
      * @return
      */
-    @DataLayer(value = "删除一个用户所有加入的群，变为非群成员状态",.module = ModuleConstant.MODULE_USER_EXIT)
+    @DataLayer(value = "删除一个用户所有加入的群，变为非群成员状态",module = ModuleConstant.MODULE_USER_EXIT)
     @Update("update group_member set  is_deleted = 1 where user_id = #{userId}")
     Integer softOneUserAllJoinGroup(@Param("userId") String userId, @Param("groupId") Integer groupId);
 }

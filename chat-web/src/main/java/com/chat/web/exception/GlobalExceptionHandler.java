@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 public class GlobalExceptionHandler {
 
     /**
-     * 处理没有的uri
+     * 资源未找到
      * @param e
      * @return
      */
@@ -91,7 +91,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(SQLException.class)
     public Result handleSQLException(SQLException ex) {
         log.error("SQL 异常: {}", ex.getMessage(), ex);
-        return Result.FAIL("数据库操作异常: " + ex.getMessage());
+        return Result.FAIL(ErrorCodeEnum.FAIL);
     }
 
     /**
@@ -100,7 +100,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DataAccessException.class)
     public Result handleDataAccessException(DataAccessException ex) {
         log.error("Spring DataAccess 异常: {}", ex.getMessage(), ex);
-        return Result.FAIL("数据库访问异常，请稍后再试");
+        return Result.FAIL(ErrorCodeEnum.FAIL);
     }
 
 
