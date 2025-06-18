@@ -36,8 +36,8 @@ public interface UserMapper {
     User selectOneByUserId(String userId);
 
     // 插入的时候先 用于注册 ，头像使用默认的，但是需要加进去，created_at的的话数据库自己生成，is_delete数据库有默认的
-    @Insert("INSERT INTO `user` (user_id, password) " +
-            "VALUES (#{userId}, #{password})")
+    @Insert("INSERT INTO `user` (user_id, password,nick_name) " +
+            "VALUES (#{userId}, #{password},#{nickName})")
     @Options(useGeneratedKeys = true, keyProperty = "id")  // 使用自增主键
     @DataLayer(value = "插入一条user数据",module = ModuleConstant.MODULE_REGISTER)
     int insertUser(User user);
