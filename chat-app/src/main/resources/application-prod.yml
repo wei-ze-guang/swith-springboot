@@ -56,4 +56,4 @@ mybatis:
     map-underscore-to-camel-case: true
 #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 captcha:
-  enable-captcha: false   #这个是测试环境关闭验证码
+  enable-captcha: true   #这个是测试环境关闭验证码
