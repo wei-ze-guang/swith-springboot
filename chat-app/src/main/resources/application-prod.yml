@@ -12,7 +12,7 @@ spring:
 #        static-locations: classpath:/static/
   data:
     redis:
-      host: r-bp1ysji60cdtgvqkg6.redis.rds.aliyuncs.com
+      host: r-bp1ysji60cdtgvqkg6pd.redis.rds.aliyuncs.com
       port: 6379
       database: 0
       timeout: 5000
