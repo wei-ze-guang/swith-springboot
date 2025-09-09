@@ -11,17 +11,22 @@ import org.springframework.transaction.event.TransactionalEventListener;
 @Component
 public class RabbitMqEventListenner {
     @Autowired
+
     private RabbitMQSendPrimaryMessageService rabbitMQSendPrimaryMessageService;
+
+    //   事务成功之后监听
     @EventListener
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     public void onFriendAdded(RabbitMqEvent event) {
         if(event.getWebSocketVo().getType() == WebSocketVo.privateType){
+
             rabbitMQSendPrimaryMessageService.sendPrivateMessage(event.getWebSocketVo());
         }
         else if(event.getWebSocketVo().getType() == WebSocketVo.publicType){
-            rabbitMQSendPrimaryMessageService.sendGroupMessage(event.getWebSocketVo());
-        }
 
+            rabbitMQSendPrimaryMessageService.sendGroupMessage(event.getWebSocketVo());
+
+        }
 
     }
 }

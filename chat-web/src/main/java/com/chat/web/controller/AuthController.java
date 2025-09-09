@@ -7,6 +7,7 @@ import com.chat.common.utils.CaptchaUtil;
 import com.security.impl.ChatUserDetailsService;
 import com.security.jwt.JwtUtil;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -32,18 +33,18 @@ import java.util.Map;
 @Slf4j
 public class AuthController {
 
-    @Autowired
+    @Resource
     private CaptchaUtil captchaUtil;
 
     private final String SESSION_KEY = "captcha";
 
-    @Autowired
+    @Resource
     private  AuthenticationManager authManager;
 
-    @Autowired
+    @Resource
     private ChatUserDetailsService userDetailsService;
 
-    @Autowired
+    @Resource
     private JwtUtil jwtUtil;
 
     @PostMapping("/auth")
@@ -56,14 +57,17 @@ public class AuthController {
         UsernamePasswordAuthenticationToken token =
                 new UsernamePasswordAuthenticationToken(userDto.getUserId(), userDto.getPassword());
         try {
+
             Authentication authentication = authManager.authenticate(token);
 
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             Map roleMap = new HashMap<>();
 
+            //  权限还没处理，使用了一个默认的
             roleMap.put("roles", userDetails.getAuthorities());
 
             String jwt = jwtUtil.generateToken(roleMap, userDetails.getUsername());
+
             log.info("用户验证成功 accessToken:{}", jwt);
             return Result.OK(Map.of("access_token", jwt));
         } catch (Exception e) {

@@ -47,6 +47,7 @@
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-orgjson</artifactId>
         </dependency>
+
     </dependencies>
 
     <properties>

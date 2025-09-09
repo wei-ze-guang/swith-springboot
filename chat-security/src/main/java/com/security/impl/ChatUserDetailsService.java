@@ -16,6 +16,7 @@ import java.util.Map;
 public class ChatUserDetailsService implements UserDetailsService {
     @Autowired
     private UserMapper userMapper;
+
     // TODO 假设这是模拟用户数据，真实项目可改成查数据库
 
     @Override

@@ -2,15 +2,13 @@ package com.chat.common.utils;
 
 import cn.hutool.captcha.LineCaptcha;
 import io.micrometer.common.util.StringUtils;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayOutputStream;
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -18,7 +16,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Component
 public class CaptchaUtil {
-    @Autowired
+    @Resource
     private StringRedisTemplate stringRedisTemplate;
 
     /**
@@ -38,15 +36,18 @@ public class CaptchaUtil {
 
         // 将图片转为 Base64
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
         captcha.write(baos);
+
         String base64Img = Base64.getEncoder().encodeToString(baos.toByteArray());
 
         Map<String, String> data = new HashMap<>();
 
         data.put("uuid", uuid);
+
         data.put("img", "data:image/png;base64," + base64Img);
 
-        return data;
+        return Collections.unmodifiableMap(data);  //  不可变
     }
     /**
      * 校验验证码是否正确
@@ -60,7 +61,9 @@ public class CaptchaUtil {
         }
 
         String key = "CAPTCHA:" + uuid;
+
         String realCode = stringRedisTemplate.opsForValue().get(key);
+
         if (realCode != null && code.trim().equalsIgnoreCase(realCode)) {
             stringRedisTemplate.delete(key);
             return true;

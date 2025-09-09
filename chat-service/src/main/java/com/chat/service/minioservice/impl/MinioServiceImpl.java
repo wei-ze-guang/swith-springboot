@@ -27,7 +27,6 @@ public class MinioServiceImpl implements MinioService {
     private MinioClient minioClient;
 
 
-
     /**
      * 存储文件
      *

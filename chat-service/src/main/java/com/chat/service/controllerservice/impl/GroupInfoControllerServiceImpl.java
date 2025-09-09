@@ -28,6 +28,9 @@ import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
+import org.springframework.transaction.support.TransactionSynchronization;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
+import org.springframework.util.Assert;
 
 import java.util.Collections;
 import java.util.List;
@@ -152,7 +155,18 @@ public class GroupInfoControllerServiceImpl implements GroupInfoControllerServic
 
                 webSocketVo.setMessageTo(String.valueOf(groupId));
                 //TODO 这里还需要处理,这里会删除所有成员，发送信息的时候查询不到群好友
-                publisher.publishEvent(new RabbitMqEvent(this,webSocketVo));
+
+                // 注册事务回调：等事务提交后再发消息
+                TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
+                    @Override
+                    public void afterCommit() {
+                        publisher.publishEvent(new RabbitMqEvent(this, webSocketVo));
+                    }
+                });
+
+
+                // publisher.publishEvent(new RabbitMqEvent(this,webSocketVo));  //原来是这样的。上面修改为事务的异步回调
+
                 return Result.OK(groupId);
             }
             return Result.FAIL("该群不存在或者已经被删除");

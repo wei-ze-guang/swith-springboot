@@ -18,6 +18,7 @@ public class SnowflakeIdWorker {
 
     // 机器编号最大值，计算方法是2^5 - 1 = 31
     private final long maxWorkerId = -1L ^ (-1L << workerIdBits);
+
     // 数据中心编号最大值，同样是31
     private final long maxDatacenterId = -1L ^ (-1L << datacenterIdBits);
 

@@ -5,8 +5,10 @@ import com.chat.common.utils.Result;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.security.jwt.CachedBodyHttpServletRequest;
+import jakarta.annotation.Resource;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +28,6 @@ import java.util.stream.Collectors;
  * CaptchaFilter 是一个自定义过滤器，用于拦截指定的登录和注册请求，
  * 并验证用户提交的验证码是否正确。验证码信息从请求体中提取，
  * 并通过 Redis 进行比对校验，未通过校验则直接返回错误响应。
- *
  * 应用于前后端分离架构中，确保接口的安全性，防止暴力攻击。
  */
 //TODO  这里的异常可能需要处理一下
@@ -42,13 +43,13 @@ public class CaptchaFilter extends OncePerRequestFilter {
     //TODO  这里可以处理位yml文件读取
     private static final List<String> CAPTCHA_PATHS = List.of("/auth", "/user/register");
 
-    @Autowired
-    private StringRedisTemplate redisTemplate;
+//    @Resource
+//    private StringRedisTemplate redisTemplate;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+//    @Resource
+    private ObjectMapper objectMapper = new ObjectMapper();
 
-    @Autowired
+    @Resource
     private CaptchaUtil captchaUtil;
 
     /**
@@ -71,6 +72,7 @@ public class CaptchaFilter extends OncePerRequestFilter {
             return;
         }
         String path = request.getRequestURI();
+
         if ("POST".equalsIgnoreCase(request.getMethod()) && CAPTCHA_PATHS.contains(path)) {
             // 读取请求体 JSON 字符串
             String body = request.getReader().lines().collect(Collectors.joining());
@@ -90,7 +92,7 @@ public class CaptchaFilter extends OncePerRequestFilter {
             }
 
 
-            // 验证验证码
+            // 验证验证码,验证码无效的话直接返回
             if (!captchaUtil.isValidateCaptcha(uuid, code)) {
                 log.warn("用户的验证码错误,输入uuid是{},code{}", uuid, code );
                 response.setContentType("application/json;charset=UTF-8");
@@ -100,6 +102,7 @@ public class CaptchaFilter extends OncePerRequestFilter {
 
             // 使用缓存请求包装类重新封装请求体，防止请求体多次读取报错
             CachedBodyHttpServletRequest cachedRequest = new CachedBodyHttpServletRequest(request, body);
+
             filterChain.doFilter(cachedRequest, response);
         } else {
             filterChain.doFilter(request, response);
