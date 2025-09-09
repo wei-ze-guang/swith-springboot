@@ -22,6 +22,8 @@ spring:
           max-idle: 8
           min-idle: 0
           max-wait: 1000ms
+      username: default
+      password: Ata1234@
 
   datasource:
     url: jdbc:mysql://rm-bp1vhzdh2yr60a8toto.mysql.rds.aliyuncs.com:3306/swith_chat?useSSL=false&serverTimezone=Asia/Shanghai
