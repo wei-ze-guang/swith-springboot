@@ -28,7 +28,7 @@ spring:
   datasource:
     url: jdbc:mysql://rm-bp1vhzdh2yr60a8toto.mysql.rds.aliyuncs.com:3306/swith_chat?useSSL=false&serverTimezone=Asia/Shanghai
     username: root
-    password: a132b465
+    password: Ata1234@
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   servlet:
